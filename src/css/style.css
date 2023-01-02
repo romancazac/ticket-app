@@ -13,7 +13,7 @@
   min-width: 0;
 }
 
-body[data-theme=dark] {
+[data-theme=dark] {
   --colors-wihte:#fff;
   --colors-logo:#fff;
   --colors-gray: #3E4143;
@@ -23,7 +23,7 @@ body[data-theme=dark] {
   --colors-logobg:#4E5559;
 }
 
-body[data-theme=light] {
+[data-theme=light] {
   --colors-wihte:#4E5559;
   --colors-gray: #fff;
   --colors-gray2: #D6EFF4;
