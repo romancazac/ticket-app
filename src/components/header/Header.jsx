@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { AppContext } from "../../App";
 import DropDown from "../dropdown/DropDown";
 import FilterItem from "../filter/FilterItem";
 import Search from "../search/Search";
 
 const Header = () => {
+  const { onFilter, filter, onSort,sort,sortSub, onSortSub } = useContext(AppContext);
   const filterItems = [
     {
       title: "Last edited",
@@ -13,6 +15,38 @@ const Header = () => {
       subItems: true,
     },
   ];
+  const sortItems = [
+    {
+      title: "Category",
+    },
+    {
+      title: "Priority",
+      subItems: [
+        {
+          title: "High",
+          icon: "icon-high",
+        },
+        {
+          title: "Medium",
+          icon: "",
+        },
+        {
+          title: "Low",
+          icon: "icon-low",
+        },
+      ],
+    },
+    {
+      title: "Status",
+    },
+    {
+      title: "Author",
+    },
+    {
+      title: "Responsible",
+    },
+  ];
+
   return (
     <header className="dashboard-content__header">
       <div className="dashboard-content__l">
@@ -35,12 +69,14 @@ const Header = () => {
               }
             >
               <ul className="dropdown__items">
-                {filterItems.map((item) => (
-                  <FilterItem name={item.title}>
-
-                    {/* <!-- add className dropdown__name "_active-drop" open drop -->
-                                <!-- exemple  <span dropdown__item _active></span> --> */}
-
+                {filterItems.map((item, i) => (
+                  <FilterItem
+                    name={item.title}
+                    onClick={() => onFilter(i)}
+                    className={
+                      filter === i ? "dropdown__item _active" : "dropdown__item"
+                    }
+                  >
                     {item.subItems && (
                       <ul className="dropdown__sublist sublist-drop">
                         <li>
@@ -92,35 +128,37 @@ const Header = () => {
               }
             >
               <ul className="dropdown__items">
-                <li>
-                  <button className="dropdown__item">Category</button>
-                </li>
-                <li className="dropdown__parent">
-                  {/* <!-- exemple  <span className="dropdown__item _active"></span> --> */}
-                  <button className="dropdown__item ">Priority</button>
-                  <ul className="dropdown__sublist sublist-drop">
-                    <li className="sublist-drop__li">
-                      <button className="dropdown__item icon-high _active">
-                        High
-                      </button>
-                    </li>
-                    <li className="sublist-drop__li">
-                      <button className="dropdown__item">Medium</button>
-                    </li>
-                    <li className="sublist-drop__li">
-                      <button className="dropdown__item  icon-low">Low</button>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <button className="dropdown__item">Status</button>
-                </li>
-                <li>
-                  <button className="dropdown__item">Author</button>
-                </li>
-                <li>
-                  <button className="dropdown__item">Responsible</button>
-                </li>
+                {sortItems.map((item, i) => (
+                  <FilterItem
+                    name={item.title}
+                    key={item.title}
+                    onClick={() => onSort(item.title)}
+                    className={
+                      sort === item.title ? "dropdown__item _active" : "dropdown__item"
+                    }
+                  >
+                    {item.subItems && (
+                      <ul className="dropdown__sublist sublist-drop">
+                        {item.subItems.map((subItem) => (
+                          <li className="sublist-drop__li">
+                            <button
+                              key={subItem.title}
+                              className={                                
+                                sortSub === subItem.title ? 
+                                `dropdown__item ${subItem.icon} _active` :
+                                `dropdown__item ${subItem.icon}`
+                              }
+                              onClick={() => onSortSub(subItem.title)}
+                            >
+                              {subItem.title}
+                            </button>
+                          </li>
+                        ))}
+                        
+                      </ul>
+                    )}
+                  </FilterItem>
+                ))}
               </ul>
             </DropDown>
           </div>

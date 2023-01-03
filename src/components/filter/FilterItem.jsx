@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const FilterItem = ({name, children}) => {
-    const[active, setActive] = useState(0)
-    const onFilter = (name) => {
-      
-        setActive()
-    }
+const FilterItem = ({name, children, onClick, className}) => {
+
     return (
         <>
             <li className="dropdown__parent">
-                <button className="dropdown__item "
-                onClick={() => onFilter(name)}
+                <button className={className}
+                onClick={onClick}
                 >{name}</button>
                 {children}
             </li>

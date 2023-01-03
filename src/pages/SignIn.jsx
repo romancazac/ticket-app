@@ -4,7 +4,7 @@ import {  useNavigate } from 'react-router-dom';
 const SignIn = () => {
 	const user = true;
 	const history = useNavigate();
-	
+
 	const  handleLog = (e) => {
 		e.preventDefault();
 		if(user){
