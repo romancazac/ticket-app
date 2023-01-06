@@ -1,0 +1,41 @@
+{
+  "tickets": [{
+    "id": 1,
+    "title": "Problema de sistem",
+    "author": "Jora Cardan",
+    "date": "12 12 2022",
+    "priority": "high",
+    "category": "development",
+    "responsible": true,
+    "edit":"15 12 2021",
+    "body":""
+  }, {
+    "id": 2,
+    "title": "Am nevoie de ajutor",
+    "author": "Jora Cardan",
+    "date": "12 12 2022",
+    "priority": "low",
+    "category": "support",
+    "responsible": true
+  }, {
+    "id": 3,
+    "title": "Api problem ",
+    "author": "Jora Cardan",
+    "date": "12 November 2022",
+    "priority": "high",
+    "category": "development",
+    "responsible": true
+  }, {
+    "id": 4,
+    "title": "Api problem ",
+    "author": "Jora Cardan",
+    "date": "12 November 2022",
+    "priority": "low",
+    "category": "development",
+    "responsible": true
+  } ],
+
+  "profile": {
+    "name": "typicode"
+  }
+}

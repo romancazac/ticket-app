@@ -6,16 +6,18 @@ import Search from "../search/Search";
 
 const Header = () => {
   const { onFilter, filter, onSort,sort,sortSub, onSortSub } = useContext(AppContext);
-  const filterItems = [
+  const sortItems = [
     {
       title: "Last edited",
+      
     },
     {
       title: "Date created",
+      
       subItems: true,
     },
   ];
-  const sortItems = [
+  const filterItems = [
     {
       title: "Category",
     },
@@ -69,12 +71,12 @@ const Header = () => {
               }
             >
               <ul className="dropdown__items">
-                {filterItems.map((item, i) => (
+                {sortItems.map((item, i) => (
                   <FilterItem
                     name={item.title}
-                    onClick={() => onFilter(i)}
+                    onClick={() => onSort(item.title)}
                     className={
-                      filter === i ? "dropdown__item _active" : "dropdown__item"
+                      sort === item.title ? "dropdown__item _active" : "dropdown__item"
                     }
                   >
                     {item.subItems && (
@@ -128,13 +130,13 @@ const Header = () => {
               }
             >
               <ul className="dropdown__items">
-                {sortItems.map((item, i) => (
+                {filterItems.map((item, i) => (
                   <FilterItem
                     name={item.title}
                     key={item.title}
-                    onClick={() => onSort(item.title)}
+                    onClick={() => onFilter(item.title)}
                     className={
-                      sort === item.title ? "dropdown__item _active" : "dropdown__item"
+                      filter === item.title ? "dropdown__item _active" : "dropdown__item"
                     }
                   >
                     {item.subItems && (

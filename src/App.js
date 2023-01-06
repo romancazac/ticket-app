@@ -1,70 +1,44 @@
 
-import React, {createContext, useEffect, useState} from 'react';
-import {Routes, Route,  useLocation  } from 'react-router-dom';
-
-import Dashboard  from './pages/Dashboard';
+import React, { createContext, useEffect, useState,useCallback } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import debounce from 'lodash.debounce';
+import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
 
 import './css/style.css'
+import useTicketService from './services/TicketServices';
+import { TicketInfo } from './pages/TicketInfo';
+import { TicketList } from "./pages/TicketList";
+import { Reports } from './pages/Reports';
+import { CreateTicket } from './pages/CreateTicket';
 export const AppContext = createContext();
 
 function App() {
-  
+  const { getAllTickets } = useTicketService();
+
+
   const location = useLocation();
   const locationUrl = location.pathname.slice(1);
+
+  const [theme, setTheme] = useState(false);
+
+  const [data, setData] = useState([]);
+
+  const [filter, setFilter] = useState('');
+  const [sort, setSort] = useState('');
+  const [sortSub, setSortSub] = useState('');
   
-  const[theme, setTheme] = useState(false);
-  const[tickets, setTickets] = useState([
-    {
-      id:1,
-      title:"Concert de cultura generala",
-      author:"Jora Cardan",
-      date:"12 November 2022",
-      priority:"high",
-      category:0,
-      responsible:true 
-    },
-    {
-      id:2,
-      title:"Concert de Craciun",
-      author:"Jora Cardan",
-      date:"12 November 2022",
-      priority:"low",
-      category:0,
-      responsible:true 
-    },
-    {
-      id:3,
-      title:"Revelion",
-      author:"Jora Cardan",
-      date:"12 November 2022",
-      priority:"",
-      category:0,
-      responsible:true 
-    },
-    {
-      id:4,
-      title:"Fuego concert",
-      author:"Jora Cardan",
-      date:"12 November 2022",
-      priority:"low",
-      category:0,
-      responsible:true 
-    },
-  ]);
-  const[data, setData] = useState([]);
-  
-  const[filter, setFilter] = useState(0);
-  const[sort, setSort] = useState('');
-  const[sortSub, setSortSub] = useState('');
-  const[search, setSearch] = useState('');
+  const [search, setSearch] = useState('');
+  const [value, setValue] = useState('');
+
+  const [load, setLoad] = useState(true);
 
   const onSwitch = () => {
     setTheme(!theme)
   }
 
   const onFilter = (i) => {
-      setFilter(i)
+    setFilter(i)
   }
   const onSort = (name) => {
     setSort(name)
@@ -73,38 +47,55 @@ function App() {
     setSortSub(name)
   }
 
+  const updateSearch = useCallback(
+    debounce((value) => {
+        setSearch(value);  
+    },1000)
+)
   const onSearch = (text) => {
-    setSearch(text);
-    
+    setValue(text);
+    updateSearch(text)
   }
+
+  const fetchTickets = () => {
+
+    getAllTickets({filter, value}).then((data) => setData(data));
+    setLoad(false)
+  }
+ 
   useEffect(() => {
-    setData(tickets)
-  },[])
+    fetchTickets()
+  }, [filter,search])
   return (
-    <AppContext.Provider value={{onSwitch, 
-      onFilter, 
+    <AppContext.Provider value={{
+      onSwitch,
+      onFilter,
       filter,
-      sort, 
-      onSort, 
-      sortSub, 
-      onSortSub, 
-      search, 
+      sort,
+      onSort,
+      sortSub,
+      onSortSub,
+      value,
       onSearch,
-      data
+      data,
+      load
     }}>
 
-    <div data-theme={theme ?  "light"  : "dark" }> 
-      <div className="wrapper">
-      <main className={ locationUrl ? "page page-dashboard" : "page page-home" }>
-          <Routes>
-            <Route path="/" element={<SignIn/>}/>
-            <Route path="dashboard" element={<Dashboard/>}/>
-          </Routes>    
-      </main>   
-      
+      <div data-theme={theme ? "light" : "dark"}>
+        <div className="wrapper">
+          <main className={locationUrl ? "page page-dashboard" : "page page-home"}>
+            <Routes>
+              <Route path="/" element={<SignIn />} />
+              <Route path="dashboard" element={<Dashboard><TicketList /></Dashboard>} />
+              <Route path="dashboard/:id" element={<Dashboard><TicketInfo /></Dashboard>} />
+              <Route path="reports" element={<Dashboard><Reports/></Dashboard>}/>
+              <Route path="create" element={<Dashboard><CreateTicket/></Dashboard>}/>
+            </Routes>
+          </main>
+
+        </div>
       </div>
-    </div>
-          
+
     </AppContext.Provider>
   );
 }

@@ -802,10 +802,10 @@ body[data-theme=light] .dropdown__item_conf,
   border-radius: 10px;
   background-color: var(--colors-wihte);
 }
-.nav-aside__item._active, .nav-aside__item:hover {
+.nav-aside__item.active, .nav-aside__item:hover {
   color: var(--colors-blue);
 }
-.nav-aside__item._active::before, .nav-aside__item:hover::before {
+.nav-aside__item.active::before, .nav-aside__item:hover::before {
   background-color: var(--colors-blue);
 }
 

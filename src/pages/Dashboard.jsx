@@ -1,13 +1,18 @@
 import React, { useContext } from "react";
-import { AppContext } from "../App";
+import { Link, NavLink } from "react-router-dom";
+
+
 import DropDown from "../components/dropdown/DropDown";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
+
 import Switch from "../components/switch/Switch";
 import Ticket from "../components/ticket/Ticket";
 
-const Dashboard = () => {
-  const {data} = useContext(AppContext)
+
+
+const Dashboard = ({children}) => {
+
   const dropItems = [
     {
       title: "Configuration",
@@ -19,6 +24,8 @@ const Dashboard = () => {
       url: "/",
     },
   ];
+
+
 
   return (
     <div className="page-dashboard__row">
@@ -58,22 +65,24 @@ const Dashboard = () => {
               ))}
             </ul>
           </DropDown>
-          <button className="aside__btn btn-block">
+          <Link to="/create"
+              className="aside__btn btn-block"
+            >
             <span>Create ticket</span>
-          </button>
+          </Link>
         </div>
         <div className="aside__body">
           <nav className="aside__nav nav-aside">
             <ul className="nav-aside__list">
               <li>
-                <a href="tickets.html" className="nav-aside__item _active">
+                <NavLink to="/dashboard"  className="nav-aside__item " >
                   Tickets
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a href="repoarts.html" className="nav-aside__item">
+                <NavLink to="/reports" className="nav-aside__item">
                   Reports
-                </a>
+                </NavLink>
               </li>
             </ul>
           </nav>
@@ -114,15 +123,12 @@ const Dashboard = () => {
       <div className="page-dashboard__content dashboard-content">
         <Header />
         <div className="dashboard-content__body content-body">
-          <div className="content-body__rows">
             {
-              data.map((item) => 
-                <Ticket key={item.id} {...item}/>
-              )
-            }
-          </div>
+              children
+            }        
+               
         </div>
-        <Footer/>          
+        <Footer />
       </div>
     </div>
   );

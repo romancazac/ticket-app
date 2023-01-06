@@ -27,7 +27,10 @@ const DropDown = ({title, dropItems, className, dropIcon, children}) => {
         className={drop ? "dropdown__name  _active-drop" : "dropdown__name"}
         onClick={onDrop}
         >
-            {title}         
+            <div className="dropdown__names">
+             {title}  
+            </div>
+                  
             <span className="dropdown__icon">
                 {dropIcon}
             </span>
