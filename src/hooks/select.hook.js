@@ -2,11 +2,11 @@
 import { useState } from "react"
 export const useSelect = () => {
 
-   const [activeClient, setActiveClient] = useState([])
-   const [users, setUsers] = useState([
-    
-   ])
-   const onUser = (i) => {
+   // const [activeClient, setActiveClient] = useState([]);
+   const [users, setUsers] = useState([]);
+
+   const onUser = (i,activeClient,setActiveClient) => {
+
 
       const findItem = activeClient.find((item) => item === users[i]);
       if (findItem) {
@@ -16,5 +16,5 @@ export const useSelect = () => {
       }
 
    }
-   return{activeClient,setActiveClient,users, onUser, setUsers}
+   return{ users, onUser, setUsers}
 } 

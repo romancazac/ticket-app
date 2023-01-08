@@ -2,14 +2,21 @@ import React,{useEffect} from 'react'
 import { useSelect } from '../../hooks/select.hook';
 import DropDown from '../dropdown/DropDown';
 
-export const Select = ({dropItems}) => {
+export const Select = ({dropItems,setActiveClient, activeClient,setUsActive }) => {
 
 
-   const {onUser, users, setUsers,activeClient} = useSelect();
+   // const {onUser, users, setUsers,activeClient,setActiveClient} = useSelect();
+   const {onUser, users, setUsers} = useSelect();
 
+   // const objData = (i) => {
+   //    setUsActive([{
+   //       user:users[i]
+   //    }]) 
+   // }
 
    useEffect(() => {
-      setUsers(dropItems)
+      setUsers(dropItems);
+     
    }, [])
    return (
       <DropDown
@@ -30,8 +37,7 @@ export const Select = ({dropItems}) => {
                            type="checkbox"
                            name="remember"
                            onClick={
-                              () => onUser(i)}
-
+                              () => onUser(i, activeClient, setActiveClient)}
                            class="checkbox__input" />
                         <label for={user}
                            class="checkbox__label"><span>{user}</span></label>
