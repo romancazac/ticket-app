@@ -7,7 +7,7 @@ const Ticket = ({ title, id, author, date, responsible, priority, edit, ticketIn
   const { iconRow, iconLable, iconSet } = useIcon();
 
   useEffect(() => {
-    iconSet(priority)
+    iconSet(priority.toString().toLowerCase())
   }, [])
   return (
     <Link to={`/dashboard/${id}`} className="content-body__row content-row">

@@ -19,9 +19,13 @@ const useTicketService = () => {
         const res = await request(`${_apiBase}tickets/${id}`);
         return res
     }
+    const createTicket = async (obj) => {
+        const res = await request(`${_apiBase}tickets/`,'POST', obj);
+        return res
+    }
 
 
-    return { loading, error, clearError, getAllTickets, getTicket }
+    return { loading, error, clearError, getAllTickets, getTicket, createTicket }
 }
 
 export default useTicketService;
