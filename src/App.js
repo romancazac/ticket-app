@@ -1,6 +1,6 @@
 
-import React, { createContext, useEffect, useState,useCallback } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import React, { createContext, useEffect, useState, useCallback } from 'react';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
@@ -14,7 +14,9 @@ import { CreateTicket } from './pages/CreateTicket';
 export const AppContext = createContext();
 
 function App() {
-  const { getAllTickets } = useTicketService();
+
+  const currentUser = true;
+  const { getAllTickets} = useTicketService();
 
 
   const location = useLocation();
@@ -26,8 +28,9 @@ function App() {
 
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('');
+  const [create, setCreate] = useState('');
   const [sortSub, setSortSub] = useState('');
-  
+
   const [search, setSearch] = useState('');
   const [value, setValue] = useState('');
 
@@ -42,30 +45,45 @@ function App() {
   }
   const onSort = (name) => {
     setSort(name)
+
   }
+  const onCreate = (name) => {
+
+    setCreate(name.trimRight())
+  }
+  
   const onSortSub = (name) => {
     setSortSub(name)
   }
 
   const updateSearch = useCallback(
     debounce((value) => {
-        setSearch(value);  
-    },1000)
-)
+      setSearch(value);
+    }, 1000)
+  )
   const onSearch = (text) => {
     setValue(text);
     updateSearch(text)
   }
 
   const fetchTickets = () => {
-
-    getAllTickets({filter, value}).then((data) => setData(data));
+    setLoad(true)
+    getAllTickets({ filter, value, sort, create }).then((data) => setData(data));
     setLoad(false)
   }
- 
+
   useEffect(() => {
+    
     fetchTickets()
-  }, [filter,search])
+   
+  }, [filter, search, sort, create])
+  const ProtectedRoute = ({children}) => {
+    if(!currentUser) {
+      return <Navigate to="/"/>
+    }
+    return children
+  }
+
   return (
     <AppContext.Provider value={{
       onSwitch,
@@ -78,18 +96,23 @@ function App() {
       value,
       onSearch,
       data,
-      load
+      load,
+      onCreate,
+    
     }}>
 
       <div data-theme={theme ? "light" : "dark"}>
         <div className="wrapper">
           <main className={locationUrl ? "page page-dashboard" : "page page-home"}>
             <Routes>
-              <Route path="/" element={<SignIn />} />
-              <Route path="dashboard" element={<Dashboard><TicketList /></Dashboard>} />
-              <Route path="dashboard/:id" element={<Dashboard><TicketInfo /></Dashboard>} />
-              <Route path="reports" element={<Dashboard><Reports/></Dashboard>}/>
-              <Route path="create" element={<Dashboard><CreateTicket/></Dashboard>}/>
+              <Route path="/" element={<SignIn user={currentUser}/>} />
+              <Route path="/" element={<Dashboard/>}>
+                <Route path="tickets" element={<ProtectedRoute><TicketList /></ProtectedRoute>} />
+                <Route path="tickets/:id" element={<TicketInfo />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="create" element={<CreateTicket />} />
+              </Route>
+
             </Routes>
           </main>
 

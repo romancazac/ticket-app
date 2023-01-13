@@ -585,6 +585,7 @@ h6 {
 .dropdown__items li {
   width: 100%;
   text-align: center;
+  cursor: pointer;
 }
 .dropdown__items li:last-child {
   margin: 0;

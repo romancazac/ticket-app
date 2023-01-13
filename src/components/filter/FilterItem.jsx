@@ -4,7 +4,7 @@ const FilterItem = ({name, children, onClick, className}) => {
 
     return (
         <>
-            <li className="dropdown__parent">
+            <li className="dropdown__parent" >
                 <button className={className}
                 onClick={onClick}
                 >{name}</button>

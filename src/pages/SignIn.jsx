@@ -1,14 +1,14 @@
 import React from 'react'
 import {  useNavigate } from 'react-router-dom';
 
-const SignIn = () => {
-	const user = true;
+const SignIn = ({user}) => {
+
 	const history = useNavigate();
 
 	const  handleLog = (e) => {
 		e.preventDefault();
 		if(user){
-			history('/dashboard')
+			history('/tickets')
 		}
 		
 	} 

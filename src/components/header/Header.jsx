@@ -1,3 +1,4 @@
+import { sortedLastIndexBy } from "lodash";
 import React, { useContext, useState } from "react";
 import { AppContext } from "../../App";
 import DropDown from "../dropdown/DropDown";
@@ -5,55 +6,86 @@ import FilterItem from "../filter/FilterItem";
 import Search from "../search/Search";
 
 const Header = () => {
-  const { onFilter, filter, onSort,sort,sortSub, onSortSub } = useContext(AppContext);
+  const { onFilter, filter, onSort, sort, sortSub, onSortSub, onCreate, data } = useContext(AppContext);
+  const[day, setDay] = useState('');
+  const[year, setYear] = useState('');
+  const[month, setMonth] = useState('');
   const sortItems = [
     {
       title: "Last edited",
-      
+      label:"edit"
     },
     {
       title: "Date created",
-      
+      label:"create",
       subItems: true,
     },
   ];
   const filterItems = [
     {
       title: "Category",
+      label:"category"
     },
     {
       title: "Priority",
+      label:"priority",
       subItems: [
         {
           title: "High",
+          label:"high",
           icon: "icon-high",
         },
         {
           title: "Medium",
+          label:"medium",
           icon: "",
         },
         {
           title: "Low",
+          label:"low",
           icon: "icon-low",
         },
       ],
     },
     {
       title: "Status",
+      label:"status",
     },
     {
       title: "Author",
+      label:"author",
     },
     {
       title: "Responsible",
+      label:"responsible",
     },
   ];
+  
+  const handleForm = () =>{    
+    onCreate(`${day} ${month} ${year}` )
+  }
+
+  React.useEffect(() => {
+  
+    const keyDownHandler = event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        // 👇️ call submit function here
+        handleForm()
+      }
+    };
+
+    document.addEventListener('keydown', keyDownHandler);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  }, [handleForm]);
 
   return (
     <header className="dashboard-content__header">
       <div className="dashboard-content__l">
         <h2 className="dashboard-content__title">Ticket list</h2>
-        <span className="dashboard-content__count">120 tickets</span>
+        <span className="dashboard-content__count">{data.length} tickets</span>
       </div>
       <div className="dashboard-content__r ">
         <div className="dashboard-content__actions">
@@ -74,32 +106,39 @@ const Header = () => {
                 {sortItems.map((item, i) => (
                   <FilterItem
                     name={item.title}
-                    onClick={() => onSort(item.title)}
+                    onClick={() => onSort(item.label)}
+                    key={i}
                     className={
-                      sort === item.title ? "dropdown__item _active" : "dropdown__item"
+                      sort === item.label ? "dropdown__item _active" : "dropdown__item"
                     }
                   >
                     {item.subItems && (
                       <ul className="dropdown__sublist sublist-drop">
-                        <li>
-                          <form action="#" className="sublist-drop__row">
+                        <li >
+                          <form className="sublist-drop__row" onSubmit={handleForm}>
                             <input
                               type="text"
                               name="day"
                               placeholder="Day"
                               className="sublist-drop__day"
+                              value={day}
+                              onChange={(e) => setDay(e.target.value)}
                             />
-                            <select className="sublist-drop__select" id="month">
-                              <option selected="selected">Month</option>
-                              <option value="1">1January</option>
-                              <option value="2">February</option>
-                              <option value="3">March</option>
-                              <option value="4">April</option>
-                              <option value="5">May</option>
-                              <option value="6">June</option>
-                              <option value="7">July</option>
-                              <option value="8">August</option>
-                              <option value="9">September</option>
+                            <select className="sublist-drop__select" id="month" 
+                              
+                              onChange={(e) => setMonth(e.target.value)}
+
+                            >
+                              <option value="">Month</option>
+                              <option value="01">1January</option>
+                              <option value="02">February</option>
+                              <option value="03">March</option>
+                              <option value="04">April</option>
+                              <option value="05">May</option>
+                              <option value="06">June</option>
+                              <option value="07">July</option>
+                              <option value="08">August</option>
+                              <option value="09">September</option>
                               <option value="10">October</option>
                               <option value="11">November</option>
                               <option value="12">December</option>
@@ -109,6 +148,8 @@ const Header = () => {
                               name="year"
                               placeholder="Year"
                               className="sublist-drop__year"
+                              value={year}
+                              onChange={(e) => setYear(e.target.value)}
                             />
                           </form>
                         </li>
@@ -133,24 +174,24 @@ const Header = () => {
                 {filterItems.map((item, i) => (
                   <FilterItem
                     name={item.title}
-                    key={item.title}
-                    onClick={() => onFilter(item.title)}
+                    key={i}
+                    onClick={() => onFilter(item.label)}
                     className={
-                      filter === item.title ? "dropdown__item _active" : "dropdown__item"
+                      filter === item.label ? "dropdown__item _active" : "dropdown__item"
                     }
                   >
                     {item.subItems && (
                       <ul className="dropdown__sublist sublist-drop">
-                        {item.subItems.map((subItem) => (
-                          <li className="sublist-drop__li">
+                        {item.subItems.map((subItem,i) => (
+                          <li className="sublist-drop__li" key={i}>
                             <button
-                              key={subItem.title}
+                              key={subItem.label}
                               className={                                
                                 sortSub === subItem.title ? 
                                 `dropdown__item ${subItem.icon} _active` :
                                 `dropdown__item ${subItem.icon}`
                               }
-                              onClick={() => onSortSub(subItem.title)}
+                              onClick={() => onSortSub(subItem.label)}
                             >
                               {subItem.title}
                             </button>

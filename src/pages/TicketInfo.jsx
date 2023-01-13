@@ -16,7 +16,7 @@ export const TicketInfo = () => {
    }
    
    useEffect(() => {
-      iconSet(ticket.priority); 
+      iconSet(ticket.priority?.toString().toLowerCase()); 
    },[ticket]);
    useEffect(() => {
       fetchTicket()
@@ -33,13 +33,13 @@ export const TicketInfo = () => {
                   </h4>
                   <div className="ticket-info__info">
                      <div className={`ticket-info__status ${iconLable}`}>
-                        Hight priority
+                        Piority
                      </div>
-                     <span>Category {ticket.category}</span>
+                     <span>Category: {ticket.category}</span>
                   </div>
                </div>
                <div className="ticket-info__top ticket-body">
-                  <p className="ticket-body__text">Ticket body</p>
+                  <p className="ticket-body__text">{ticket.body}</p>
                   <div className="ticket-body__bottom">
                      <div className="ticket-body__l">
                         <span className="ticket-body__name">User name</span>
@@ -198,7 +198,7 @@ export const TicketInfo = () => {
 
             <div className="ticket-info__footer form-ticket">
                <form action="#" className="form-ticket__elements">
-                  <textarea className="form-ticket__textarea" name="text" id="#">Start typing...</textarea>
+                  <textarea className="form-ticket__textarea" name="text" id="#" defaultValue={'Start typing...'} />
                </form>
             </div>
          </div>

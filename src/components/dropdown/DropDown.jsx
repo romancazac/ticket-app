@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const DropDown = ({title, dropItems, className, dropIcon, children}) => {
+export default React.memo(({ title, dropItems, className, dropIcon, children }) => {
     const [drop, setDrop] = useState(false);
 
     const modalRef = useRef();
@@ -9,9 +9,9 @@ const DropDown = ({title, dropItems, className, dropIcon, children}) => {
         setDrop(!drop)
     }
 
-    useEffect(()=>{
-        const closeModal = (e) =>{
-            if(!e.path.includes(modalRef.current)){
+    useEffect(() => {
+        const closeModal = (e) => {
+            if (!e.path.includes(modalRef.current)) {
                 setDrop(false);
             }
 
@@ -20,28 +20,29 @@ const DropDown = ({title, dropItems, className, dropIcon, children}) => {
         return () => {
             document.body.removeEventListener('click', closeModal)
         }
-    },[]);
+    }, [title]);
+    useEffect(() => {
+        setDrop(false);
+    },[title])
     return (
         <div ref={modalRef} className={`${className} dropdown`} >
-        <span 
-        className={drop ? "dropdown__name  _active-drop" : "dropdown__name"}
-        onClick={onDrop}
-        >
-            <div className="dropdown__names">
-             {title}  
-            </div>
-                  
-            <span className="dropdown__icon">
-                {dropIcon}
+            <span
+                className={drop ? "dropdown__name  _active-drop" : "dropdown__name"}
+                onClick={onDrop}
+            >
+                <div className="dropdown__names">
+                    {title}
+                </div>
+
+                <span className="dropdown__icon">
+                    {dropIcon}
+                </span>
             </span>
+            {
+                children
+            }
 
-        </span>
-        {
-            children
-        }
-
-    </div>
+        </div>
     );
-};
+});
 
-export default DropDown;

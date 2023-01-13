@@ -4,6 +4,7 @@ export const useIcon = () => {
    const [iconLable, setIconLable] = useState('');
    const [iconRow, setIconRow] = useState('');
    const iconSet = (prop) => {
+
       switch (prop) {
          case "high":
             setIconLable("icon-high")

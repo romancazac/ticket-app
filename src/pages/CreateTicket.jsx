@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import DropDown from "../components/dropdown/DropDown";
-import FilterItem from "../components/filter/FilterItem";
-
 import { Select } from "../components/select/Select";
 import useTicketService from "../services/TicketServices";
 export const CreateTicket = () => {
@@ -16,6 +13,8 @@ export const CreateTicket = () => {
   const [priority, setPriority] = useState([]);
   const [body, setBody] = useState([]);
   const [status, setStatus] = useState([]);
+  const dateCreate = new Date();
+  const parseDate = dateCreate.getDate()+' '+dateCreate.getMonth()+1 +' '+ dateCreate.getFullYear();
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -26,17 +25,15 @@ export const CreateTicket = () => {
       category: category,
       priority: priority,
       body:body,
-      status:status
+      status:status,
+      date:parseDate,
+      edit:parseDate
 
     };
     createTicket(JSON.stringify(dataForm))
     
   };
 
-
-  useEffect(() => {
-   
-  },[])
   return (
     <form className="content-body__rows ticket-info" onSubmit={handleForm}>
       <div className="ticket-info__header">
@@ -50,6 +47,7 @@ export const CreateTicket = () => {
                 activeClient={client}
                 setActiveClient={setClient}
                 checkbox={true}
+                className={"ticket-create__dropdown"}
               />
             </div>
             <div className="ticket-create__line">
@@ -59,6 +57,7 @@ export const CreateTicket = () => {
                 activeClient={to}
                 setActiveClient={setTo}
                 checkbox={true}
+                className={"ticket-create__dropdown"}
               />
             </div>
             <div className="ticket-create__line">
@@ -68,6 +67,7 @@ export const CreateTicket = () => {
                 activeClient={subject}
                 setActiveClient={setSubject}
                 checkbox={true}
+                className={"ticket-create__dropdown"}
               />
             </div>
           </div>
@@ -79,6 +79,7 @@ export const CreateTicket = () => {
                 activeClient={category}
                 setActiveClient={setCategory}
                 checkbox={false}
+                className={"ticket-create__dropdown"}
               />
 
             </div>
@@ -89,6 +90,7 @@ export const CreateTicket = () => {
                 activeClient={priority}
                 setActiveClient={setPriority}
                 checkbox={false}
+                className={"ticket-create__dropdown"}
               />
             </div>
           </div>
@@ -103,16 +105,17 @@ export const CreateTicket = () => {
               value={body}
               onChange={(e) => setBody(e.target.value)}
               id="#"
-            >
-              Start typing...
-            </textarea>
+           
+           />
+            
+        
           </div>
 
           <div className="form-ticket__row">
             <div className="form-ticket__select">
               Ticket status
               <select name="status" id="#" onChange={(e) => setStatus(e.target.value)}>
-                <option value=''>Choose status</option>
+                <option value="Choose status">Choose status</option>
                 <option value="Responsible">Responsible</option>
                 <option value="Not responsible">Not responsible</option>
               </select>

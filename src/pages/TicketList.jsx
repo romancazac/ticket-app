@@ -4,6 +4,7 @@ import Loader from "../components/loader/Loader";
 import { AppContext } from '../App';
 export const TicketList = ({ticketInfo}) => {
    const { data, load } = useContext(AppContext);
+
    return (
 
          <div className="content-body__rows">

@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelect } from '../../hooks/select.hook';
+import { Select } from '../select/Select';
 
 const Footer = () => {
+  
+  const [page, setPage] = useState([])
+
     return (
         <footer className="dashboard-content__footer footer-dash">
         <div className="footer-dash__left">
@@ -36,6 +41,14 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
+            
+            <Select
+                dropItems={[100,60,30]}
+                activeClient={page}
+                setActiveClient={setPage}
+                checkbox={false}
+                className={"footer-dash__dropdown "}
+              />
             per page
           </div>
           <div className="footer-dash__center pagination">

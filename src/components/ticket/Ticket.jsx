@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useIcon } from "../../hooks/icon.hook";
 
-const Ticket = ({ title, id, author, date, responsible, priority, edit, ticketInfo}) => {
+const Ticket = ({ title, id, author, date, responsible, priority, edit, ticketInfo, status}) => {
 
   const { iconRow, iconLable, iconSet } = useIcon();
 
@@ -10,7 +10,7 @@ const Ticket = ({ title, id, author, date, responsible, priority, edit, ticketIn
     iconSet(priority.toString().toLowerCase())
   }, [])
   return (
-    <Link to={`/dashboard/${id}`} className="content-body__row content-row">
+    <Link to={`/tickets/${id}`} className="content-body__row content-row">
       <span className={`content-row__icon ${iconRow}`}></span>
       <div className="content-row__column">
         <div className="content-row__title">{title}</div>
@@ -36,7 +36,7 @@ const Ticket = ({ title, id, author, date, responsible, priority, edit, ticketIn
             </div>
             <div className="content-row__column">
               <span className="content-row__username">
-                {responsible && "Responsible"}
+                {status}
               </span>
             </div>
           </>

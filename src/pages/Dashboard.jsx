@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 
 import DropDown from "../components/dropdown/DropDown";
@@ -75,7 +75,7 @@ const Dashboard = ({children}) => {
           <nav className="aside__nav nav-aside">
             <ul className="nav-aside__list">
               <li>
-                <NavLink to="/dashboard"  className="nav-aside__item " >
+                <NavLink to="/tickets"  className="nav-aside__item " >
                   Tickets
                 </NavLink>
               </li>
@@ -123,10 +123,7 @@ const Dashboard = ({children}) => {
       <div className="page-dashboard__content dashboard-content">
         <Header />
         <div className="dashboard-content__body content-body">
-            {
-              children
-            }        
-               
+            <Outlet/>           
         </div>
         <Footer />
       </div>

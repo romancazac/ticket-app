@@ -4,48 +4,60 @@
       "id": 1,
       "title": "Problema de sistem",
       "author": "Jora Cardan",
-      "date": "12 12 2022",
-      "priority": "high",
+      "date": "12 12 2023",
+      "priority": [
+        "high"
+      ],
       "category": "development",
       "responsible": true,
-      "edit": "15 12 2021",
-      "body": ""
+      "edit": "15 12 2023",
+      "body": "",
+      "status": "Responsible"
     },
     {
       "id": 2,
       "title": "Am nevoie de ajutor",
       "author": "Jora Cardan",
-      "date": "12 12 2022",
-      "priority": "low",
+      "date": "12 12 2023",
+      "priority": [
+        "low"
+      ],
       "category": "support",
-      "responsible": true
+      "status": "Responsible",
+      "edit": "10 12 2023"
     },
     {
       "id": 3,
       "title": "Api problem ",
       "author": "Jora Cardan",
-      "date": "12 November 2022",
-      "priority": "high",
+      "date": "12 November 2023",
+      "priority": [
+        "high"
+      ],
       "category": "development",
-      "responsible": true
+      "status": "Responsible",
+      "edit": "09 12 2023"
     },
     {
       "id": 4,
       "title": "Api problem ",
       "author": "Jora Cardan",
-      "date": "12 November 2022",
-      "priority": "low",
+      "date": "12 November 2023",
+      "priority": [
+        "low"
+      ],
       "category": "development",
-      "responsible": true
+      "status": "Responsible",
+      "edit": "08 12 2023"
     },
     {
-      "client": [
-        "Vanea Caldare"
+      "author": [
+        "Jora Cardan"
       ],
       "to": [
         "user2"
       ],
-      "subject": [
+      "title": [
         "subject2"
       ],
       "category": [
@@ -54,13 +66,102 @@
       "priority": [
         "High"
       ],
-      "body": "xcvxcvxcv",
+      "edit": "20 12 2023",
+      "body": "Text body",
       "status": "Responsible",
       "id": 5
     },
     {
-      "client": [
+      "author": [
+        "Vanea Caldare"
+      ],
+      "to": [
+        "user2"
+      ],
+      "title": [
+        "subject2"
+      ],
+      "category": [
+        "Development"
+      ],
+      "priority": [
+        "Low"
+      ],
+      "body": "text body",
+      "status": "Responsible",
+      "date": "11 01 2023",
+      "id": 6,
+      "edit": "30 12 2023"
+    },
+    {
+      "author": [
         "Jora Cardan"
+      ],
+      "to": [
+        "user2"
+      ],
+      "title": [
+        "subject3"
+      ],
+      "category": [
+        "Development"
+      ],
+      "priority": [
+        "High"
+      ],
+      "body": "text body",
+      "status": "Responsible",
+      "date": "11 01 2023",
+      "id": 7,
+      "edit": "01 12 2023"
+    },
+    {
+      "author": [
+        "Dumitru Vartan"
+      ],
+      "to": [
+        "user3"
+      ],
+      "title": [
+        "subject3"
+      ],
+      "category": [
+        "Development"
+      ],
+      "priority": [
+        "Low"
+      ],
+      "body": "Text body ",
+      "status": "Not responsible",
+      "date": "11 01 2023",
+      "id": 8,
+      "edit": "01 12 2023"
+    },
+    {
+      "author": [
+        "Jora Cardan"
+      ],
+      "to": [
+        "user1"
+      ],
+      "title": [
+        "subject2"
+      ],
+      "category": [
+        "Support"
+      ],
+      "priority": [
+        "Low"
+      ],
+      "body": [],
+      "status": "Not responsible",
+      "date": "11 01 2023",
+      "id": 9,
+      "edit": "04 12 2023"
+    },
+    {
+      "author": [
+        "Dumitru Vartan"
       ],
       "to": [
         "user2"
@@ -74,29 +175,61 @@
       "priority": [
         "Low"
       ],
-      "body": [],
-      "status": [],
-      "id": 6
+      "body": "text ",
+      "status": "Responsible",
+      "date": "12 01 2023",
+      "id": 10,
+      "edit": "12 01 2023"
     },
     {
       "author": [
-        "Jora Cardan"
+        "Vanea Caldare"
       ],
       "to": [
         "user1"
       ],
       "title": [
-        "subject3"
+        "subject2"
       ],
       "category": [
         "Support"
       ],
       "priority": [
-        "Low"
+        "High"
       ],
-      "body": "Body text",
+      "body": "werwerwerwer",
       "status": "Responsible",
-      "id": 7
+      "date": "12 01 2023",
+      "edit": "12 01 2023",
+      "id": 11
+    },
+    {
+      "author": [],
+      "to": [],
+      "title": [
+        "subject2"
+      ],
+      "category": [],
+      "priority": [],
+      "body": [],
+      "status": [],
+      "date": "12 01 2023",
+      "edit": "12 01 2023",
+      "id": 12
+    },
+    {
+      "author": [],
+      "to": [
+        "user2"
+      ],
+      "title": [],
+      "category": [],
+      "priority": [],
+      "body": [],
+      "status": [],
+      "date": "12 01 2023",
+      "edit": "12 01 2023",
+      "id": 13
     },
     {
       "author": [
@@ -106,83 +239,18 @@
         "user2"
       ],
       "title": [
-        "subject1"
+        "subject2"
       ],
       "category": [
-        "Support"
+        "Development"
       ],
       "priority": [
         "Low"
       ],
-      "body": "sdfsdf",
+      "body": "sdfsdfsdf",
       "status": "Not responsible",
-      "id": 8
-    },
-    {
-      "author": [
-        "Vanea Caldare",
-        "Dumitru Vartan"
-      ],
-      "to": [],
-      "title": [],
-      "category": [
-        "Support"
-      ],
-      "priority": [
-        "High"
-      ],
-      "body": [],
-      "status": [],
-      "id": 9
-    },
-    {
-      "author": [],
-      "to": [],
-      "title": [],
-      "category": [],
-      "priority": [],
-      "body": [],
-      "status": [],
-      "id": 10
-    },
-    {
-      "author": [],
-      "to": [],
-      "title": [],
-      "category": [],
-      "priority": [],
-      "body": [],
-      "status": [],
-      "id": 11
-    },
-    {
-      "author": [],
-      "to": [],
-      "title": [],
-      "category": [],
-      "priority": [],
-      "body": [],
-      "status": [],
-      "id": 12
-    },
-    {
-      "author": [],
-      "to": [],
-      "title": [],
-      "category": [],
-      "priority": [],
-      "body": [],
-      "status": [],
-      "id": 13
-    },
-    {
-      "author": [],
-      "to": [],
-      "title": [],
-      "category": [],
-      "priority": [],
-      "body": "vbvbvb",
-      "status": [],
+      "date": "13 01 2023",
+      "edit": "13 01 2023",
       "id": 14
     }
   ],

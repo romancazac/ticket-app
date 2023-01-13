@@ -8,11 +8,13 @@ const useTicketService = () => {
 
 
     const getAllTickets = async (params) => {
-        const { filter, value } = params;
+        const { filter, value, sort, create } = params;
 
+        const edit = sort == "edit" ? `?_sort=edit&_order=desc` : '' ;
+        const creat =  sort == "create" && create ? `?date=${create}`:'' ;
         const category = filter && `?category=${filter}`;
         const q = value && `?q=${value}`;
-        const res = await request(`${_apiBase}tickets${category}${q}`);
+        const res = await request(`${_apiBase}tickets${category}${q}${edit}${creat}`);
         return res
     }
     const getTicket = async (id) => {
