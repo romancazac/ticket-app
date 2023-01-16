@@ -1,29 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect,  useRef, useState } from 'react';
 
-export default React.memo(({ title, dropItems, className, dropIcon, children }) => {
+ const DropDown = ({ title, className, dropIcon, children }) => {
+    
+    const modalRef = useRef();
     const [drop, setDrop] = useState(false);
 
-    const modalRef = useRef();
+    
 
     const onDrop = () => {
         setDrop(!drop)
     }
 
+
+    useEffect(() => {
+        setDrop(false);
+    },[title])
+   
     useEffect(() => {
         const closeModal = (e) => {
-            if (!e.path.includes(modalRef.current)) {
+            if (!e.composedPath().includes(modalRef.current)) {
                 setDrop(false);
-            }
-
+             }
+         
         }
         document.body.addEventListener('click', closeModal);
         return () => {
             document.body.removeEventListener('click', closeModal)
         }
-    }, [title]);
-    useEffect(() => {
-        setDrop(false);
-    },[title])
+    }, []);
     return (
         <div ref={modalRef} className={`${className} dropdown`} >
             <span
@@ -44,5 +48,6 @@ export default React.memo(({ title, dropItems, className, dropIcon, children }) 
 
         </div>
     );
-});
+};
 
+export default  DropDown 
