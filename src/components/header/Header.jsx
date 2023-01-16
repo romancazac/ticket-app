@@ -6,7 +6,7 @@ import FilterItem from "../filter/FilterItem";
 import Search from "../search/Search";
 
 const Header = () => {
-  const { onFilter, filter, onSort, sort, sortSub, onSortSub, onCreate, data } = useContext(AppContext);
+  const { onFilter, filter, onSort, sort, sortSub, onSortSub, onCreate, data,onPriority } = useContext(AppContext);
   const[day, setDay] = useState('');
   const[year, setYear] = useState('');
   const[month, setMonth] = useState('');
@@ -32,17 +32,17 @@ const Header = () => {
       subItems: [
         {
           title: "High",
-          label:"high",
+          label:"High",
           icon: "icon-high",
         },
         {
           title: "Medium",
-          label:"medium",
+          label:"Medium",
           icon: "",
         },
         {
           title: "Low",
-          label:"low",
+          label:"Low",
           icon: "icon-low",
         },
       ],
@@ -54,6 +54,14 @@ const Header = () => {
     {
       title: "Author",
       label:"author",
+      subItems: [
+        {
+          title: "Alphabet",
+          label:"high",
+       
+        },
+
+      ],
     },
     {
       title: "Responsible",
@@ -187,7 +195,7 @@ const Header = () => {
                             <button
                               key={subItem.label}
                               className={                                
-                                sortSub === subItem.title ? 
+                                sortSub === subItem.label ? 
                                 `dropdown__item ${subItem.icon} _active` :
                                 `dropdown__item ${subItem.icon}`
                               }

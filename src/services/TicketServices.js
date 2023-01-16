@@ -8,13 +8,14 @@ const useTicketService = () => {
 
 
     const getAllTickets = async (params) => {
-        const { filter, value, sort, create } = params;
-
+        const { filter, value, sort, create, priority } = params;
+        console.log(filter, priority)
         const edit = sort == "edit" ? `?_sort=edit&_order=desc` : '' ;
         const creat =  sort == "create" && create ? `?date=${create}`:'' ;
-        const category = filter && `?category=${filter}`;
+        const priorit =  filter == "priority" && priority ? `?priority=${priority}`:'' ;
+        // const category = filter && `?category=${filter}`;
         const q = value && `?q=${value}`;
-        const res = await request(`${_apiBase}tickets${category}${q}${edit}${creat}`);
+        const res = await request(`${_apiBase}tickets${q}${edit}${creat}${priorit}`);
         return res
     }
     const getTicket = async (id) => {

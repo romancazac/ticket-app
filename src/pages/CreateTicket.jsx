@@ -86,7 +86,7 @@ export const CreateTicket = () => {
             <div className="ticket-create__line">
               <span className="ticket-create__lable">Priority:</span>
               <Select
-                dropItems={['High', 'Low']}
+                dropItems={['High','Medium', 'Low']}
                 activeClient={priority}
                 setActiveClient={setPriority}
                 checkbox={false}

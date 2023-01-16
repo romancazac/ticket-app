@@ -28,7 +28,9 @@ function App() {
 
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('');
+
   const [create, setCreate] = useState('');
+  const [priority, setPriority] = useState('');
   const [sortSub, setSortSub] = useState('');
 
   const [search, setSearch] = useState('');
@@ -49,11 +51,14 @@ function App() {
   }
   const onCreate = (name) => {
 
-    setCreate(name.trimRight())
+    setCreate(name)
   }
-  
+  const onPriority = (name) => {
+    setPriority(name)
+  }
   const onSortSub = (name) => {
     setSortSub(name)
+    setPriority(name)
   }
 
   const updateSearch = useCallback(
@@ -68,7 +73,7 @@ function App() {
 
   const fetchTickets = () => {
     setLoad(true)
-    getAllTickets({ filter, value, sort, create }).then((data) => setData(data));
+    getAllTickets({ filter, value, sort, create,priority }).then((data) => setData(data));
     setLoad(false)
   }
 
@@ -76,7 +81,7 @@ function App() {
     
     fetchTickets()
    
-  }, [filter, search, sort, create])
+  }, [filter, search, sort, create, priority])
   const ProtectedRoute = ({children}) => {
     if(!currentUser) {
       return <Navigate to="/"/>
@@ -98,7 +103,7 @@ function App() {
       data,
       load,
       onCreate,
-    
+      onPriority
     }}>
 
       <div data-theme={theme ? "light" : "dark"}>
