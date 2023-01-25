@@ -7,7 +7,7 @@ import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
 
 import Switch from "../components/switch/Switch";
-import Ticket from "../components/ticket/Ticket";
+
 
 
 

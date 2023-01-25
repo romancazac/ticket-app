@@ -6,75 +6,91 @@ import FilterItem from "../filter/FilterItem";
 import Search from "../search/Search";
 
 const Header = () => {
-  const { onFilter, filter, onSort, sort, sortSub, onSortSub, onCreate, data,onPriority } = useContext(AppContext);
-  const[day, setDay] = useState('');
-  const[year, setYear] = useState('');
-  const[month, setMonth] = useState('');
+  const { onFilter, filter, onSort, sort, sortSub, onSortSub, onCreate, data, onResetFilter } = useContext(AppContext);
+  const [day, setDay] = useState('');
+  const [year, setYear] = useState('');
+  const [month, setMonth] = useState('');
   const sortItems = [
     {
       title: "Last edited",
-      label:"edit"
+      label: "edit"
     },
     {
-      title: "Date created",
-      label:"create",
-      subItems: true,
-    },
+      title: "Author",
+      label: "author",
+
+    }
   ];
   const filterItems = [
     {
       title: "Category",
-      label:"category"
+      label: "category",
+      subItems: [
+        {
+          title: "Development",
+          label: "Development",
+
+        },
+        {
+          title: "Support",
+          label: "Support",
+
+        },
+      ]
     },
     {
       title: "Priority",
-      label:"priority",
+      label: "priority",
       subItems: [
         {
           title: "High",
-          label:"High",
+          label: "High",
           icon: "icon-high",
         },
         {
           title: "Medium",
-          label:"Medium",
+          label: "Medium",
           icon: "",
         },
         {
           title: "Low",
-          label:"Low",
+          label: "Low",
           icon: "icon-low",
         },
       ],
     },
     {
       title: "Status",
-      label:"status",
-    },
-    {
-      title: "Author",
-      label:"author",
+      label: "status",
       subItems: [
         {
-          title: "Alphabet",
-          label:"high",
-       
-        },
+          title: "Responsible",
+          label: "Responsible",
 
-      ],
+        },
+        {
+          title: "Not responsible",
+          label: "Not responsible",
+
+        },
+      ]
     },
+
     {
-      title: "Responsible",
-      label:"responsible",
-    },
+      title: "Date created",
+      label: "create",
+      subItems: false
+    }
+
   ];
-  
-  const handleForm = () =>{    
-    onCreate(`${day} ${month} ${year}` )
+
+  const handleForm = () => {
+    onCreate(`${day} ${month} ${year}`)
   }
+  
 
   React.useEffect(() => {
-  
+
     const keyDownHandler = event => {
       if (event.key === 'Enter') {
         event.preventDefault();
@@ -120,7 +136,53 @@ const Header = () => {
                       sort === item.label ? "dropdown__item _active" : "dropdown__item"
                     }
                   >
-                    {item.subItems && (
+
+                  </FilterItem>
+                ))}
+              </ul>
+            </DropDown>
+
+            <DropDown
+              title={null}
+              className={"dashboard-content__dropdown"}
+              dropItems={null}
+              dropIcon={
+                <svg fill="none">
+                  <path d="M8.76038 10.8684C9.00174 11.131 9.13425 11.4741 9.13425 11.8291V22.2881C9.13425 22.9175 9.89383 23.237 10.3434 22.7945L13.2611 19.4509C13.6515 18.9824 13.8668 18.7505 13.8668 18.2867V11.8314C13.8668 11.4765 14.0017 11.1334 14.2407 10.8707L22.6126 1.78655C23.2397 1.10506 22.757 0 21.8294 0H1.17166C0.24408 0 -0.24101 1.10269 0.388423 1.78655L8.76038 10.8684Z" />
+                </svg>
+              }
+            >
+              <ul className="dropdown__items">
+                {filterItems.map((item, i) => (
+                  <FilterItem
+                    name={item.title}
+                    key={i}
+                    onClick={() => onFilter(item.label)}
+                    className={
+                      filter === item.label ? "dropdown__item _active" : "dropdown__item"
+                    }
+                  >
+                    {item.subItems ?
+                      <ul className="dropdown__sublist sublist-drop">
+                        {item.subItems.map((subItem, i) => (
+                          <li className="sublist-drop__li" key={i}>
+                            <button
+                              key={subItem.label}
+                              className={
+                                sortSub === subItem.label ?
+                                  `dropdown__item ${subItem.icon ? subItem.icon : ''} _active` :
+                                  `dropdown__item ${subItem.icon ? subItem.icon : ''}`
+                              }
+                              onClick={() => onSortSub(subItem.label)}
+                            >
+                              {subItem.title}
+                            </button>
+                          </li>
+
+                        ))}
+                      </ul>
+
+                      :
                       <ul className="dropdown__sublist sublist-drop">
                         <li >
                           <form className="sublist-drop__row" onSubmit={handleForm}>
@@ -132,8 +194,8 @@ const Header = () => {
                               value={day}
                               onChange={(e) => setDay(e.target.value)}
                             />
-                            <select className="sublist-drop__select" id="month" 
-                              
+                            <select className="sublist-drop__select" id="month"
+
                               onChange={(e) => setMonth(e.target.value)}
 
                             >
@@ -162,56 +224,18 @@ const Header = () => {
                           </form>
                         </li>
                       </ul>
-                    )}
-                  </FilterItem>
-                ))}
-              </ul>
-            </DropDown>
-
-            <DropDown
-              title={null}
-              className={"dashboard-content__dropdown"}
-              dropItems={null}
-              dropIcon={
-                <svg fill="none">
-                  <path d="M8.76038 10.8684C9.00174 11.131 9.13425 11.4741 9.13425 11.8291V22.2881C9.13425 22.9175 9.89383 23.237 10.3434 22.7945L13.2611 19.4509C13.6515 18.9824 13.8668 18.7505 13.8668 18.2867V11.8314C13.8668 11.4765 14.0017 11.1334 14.2407 10.8707L22.6126 1.78655C23.2397 1.10506 22.757 0 21.8294 0H1.17166C0.24408 0 -0.24101 1.10269 0.388423 1.78655L8.76038 10.8684Z" />
-                </svg>
-              }
-            >
-              <ul className="dropdown__items">
-                {filterItems.map((item, i) => (
-                  <FilterItem
-                    name={item.title}
-                    key={i}
-                    onClick={() => onFilter(item.label)}
-                    className={
-                      filter === item.label ? "dropdown__item _active" : "dropdown__item"
                     }
-                  >
-                    {item.subItems && (
-                      <ul className="dropdown__sublist sublist-drop">
-                        {item.subItems.map((subItem,i) => (
-                          <li className="sublist-drop__li" key={i}>
-                            <button
-                              key={subItem.label}
-                              className={                                
-                                sortSub === subItem.label ? 
-                                `dropdown__item ${subItem.icon} _active` :
-                                `dropdown__item ${subItem.icon}`
-                              }
-                              onClick={() => onSortSub(subItem.label)}
-                            >
-                              {subItem.title}
-                            </button>
-                          </li>
-                        ))}
-                        
-                      </ul>
-                    )}
                   </FilterItem>
                 ))}
               </ul>
             </DropDown>
+            {
+              (sort || filter) &&
+              <span className="dropdown__icon _icon-res" onClick={onResetFilter}>  
+              </span>
+              
+            }
+            
           </div>
         </div>
       </div>

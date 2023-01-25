@@ -11,12 +11,13 @@ import { TicketInfo } from './pages/TicketInfo';
 import { TicketList } from "./pages/TicketList";
 import { Reports } from './pages/Reports';
 import { CreateTicket } from './pages/CreateTicket';
+
 export const AppContext = createContext();
 
 function App() {
 
   const currentUser = true;
-  const { getAllTickets} = useTicketService();
+  const { getAllTickets } = useTicketService();
 
 
   const location = useLocation();
@@ -26,11 +27,20 @@ function App() {
 
   const [data, setData] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const [perPage, setPerPage] = useState([30]);
+
+
+
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('');
 
   const [create, setCreate] = useState('');
   const [priority, setPriority] = useState('');
+  const [category, setCategory] = useState('');
+  const [status, setStatus] = useState('');
+
   const [sortSub, setSortSub] = useState('');
 
   const [search, setSearch] = useState('');
@@ -50,15 +60,23 @@ function App() {
 
   }
   const onCreate = (name) => {
-
     setCreate(name)
   }
-  const onPriority = (name) => {
-    setPriority(name)
+  const onResetFilter = () => {
+    setFilter('')
+    setSortSub('')
+    setSort('')
   }
+  const onPaginationPage = (nr) => {
+    setCurrentPage(nr)
+  }
+
   const onSortSub = (name) => {
     setSortSub(name)
     setPriority(name)
+    setCategory(name)
+    setStatus(name)
+
   }
 
   const updateSearch = useCallback(
@@ -66,6 +84,7 @@ function App() {
       setSearch(value);
     }, 1000)
   )
+
   const onSearch = (text) => {
     setValue(text);
     updateSearch(text)
@@ -73,18 +92,24 @@ function App() {
 
   const fetchTickets = () => {
     setLoad(true)
-    getAllTickets({ filter, value, sort, create,priority }).then((data) => setData(data));
+    getAllTickets({ filter, value, sort, create, priority, category, status, currentPage, perPage })
+      .then((data) => {
+        setData(data)
+      })
     setLoad(false)
   }
 
+
   useEffect(() => {
-    
+
     fetchTickets()
-   
-  }, [filter, search, sort, create, priority])
-  const ProtectedRoute = ({children}) => {
-    if(!currentUser) {
-      return <Navigate to="/"/>
+
+  }, [filter, search, sort, create, priority, category, currentPage, perPage]);
+
+
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/" />
     }
     return children
   }
@@ -103,26 +128,30 @@ function App() {
       data,
       load,
       onCreate,
-      onPriority
+      perPage,
+      setPerPage,
+      onPaginationPage,
+      onResetFilter
+
     }}>
 
-      <div data-theme={theme ? "light" : "dark"}>
-        <div className="wrapper">
-          <main className={locationUrl ? "page page-dashboard" : "page page-home"}>
-            <Routes>
-              <Route path="/" element={<SignIn user={currentUser}/>} />
-              <Route path="/" element={<Dashboard/>}>
-                <Route path="tickets" element={<ProtectedRoute><TicketList /></ProtectedRoute>} />
-                <Route path="tickets/:id" element={<TicketInfo />} />
-                <Route path="reports" element={<Reports />} />
-                <Route path="create" element={<CreateTicket />} />
-              </Route>
 
-            </Routes>
-          </main>
+      <div className="wrapper" data-theme={theme ? "light" : "dark"}>
+        <main className={locationUrl ? "page page-dashboard" : "page page-home"}>
+          <Routes>
+            <Route path="/" element={<SignIn user={currentUser} />} />
+            <Route path="/" element={<Dashboard />}>
+              <Route path="tickets" element={<ProtectedRoute><TicketList /></ProtectedRoute>} />
+              <Route path="tickets/:idn" element={<TicketInfo />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="create" element={<CreateTicket />} />
+            </Route>
 
-        </div>
+          </Routes>
+        </main>
+
       </div>
+
 
     </AppContext.Provider>
   );

@@ -7,11 +7,11 @@ import { TicketList } from './TicketList'
 export const TicketInfo = () => {
    const {getTicket, loading} = useTicketService();
    const{iconSet, iconLable} = useIcon();
-   const {id} = useParams();
+   const {idn} = useParams();
    const [ticket, setTicket ] = useState([]);
 
    const fetchTicket = () => {
-      getTicket(id).then((res) => setTicket(res))
+      getTicket(idn).then((res) => setTicket(res))
       
    }
    
@@ -20,7 +20,7 @@ export const TicketInfo = () => {
    },[ticket]);
    useEffect(() => {
       fetchTicket()
-   },[id]);
+   },[idn]);
 
    return (
       <div className="dashboard-content__body content-body content-body_columns">

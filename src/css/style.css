@@ -563,6 +563,11 @@ h6 {
 .dropdown .dropdown__name._active-drop + .dropdown__items {
   opacity: 1;
   visibility: visible;
+  pointer-events: all;
+  z-index: 1;
+}
+.dropdown .dropdown__name._active-drop + .dropdown__items {
+  
 }
 .dropdown__items {
   position: absolute;
@@ -577,10 +582,11 @@ h6 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1;
+  z-index: -1;
   opacity: 0;
   visibility: hidden;
   transition: all 0.4s;
+  pointer-events: none;
 }
 .dropdown__items li {
   width: 100%;
@@ -650,10 +656,7 @@ body[data-theme=light] .dropdown__item_conf,
   box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.08);
   border-radius: 10px 0px 10px 10px;
   pointer-events: none;
-  /* .sublist-drop__row */
-  /* .sublist-drop__day */
-  /* .sublist-drop__select */
-  /* .sublist-drop__li */
+
 }
 .sublist-drop li:hover {
   background-color: 0;
@@ -729,13 +732,17 @@ body[data-theme=light] .dropdown__item_conf,
 .sublist-drop__select option {
   height: 200px;
 }
-.sublist-drop__li .dropdown__item {
-  padding-left: 35px;
-  text-align: left;
+.sublist-drop__li .dropdown__item  {
+ text-align: center;
   background-position: 15px center;
   background-repeat: no-repeat;
   background-size: 10px;
 }
+.sublist-drop__li .dropdown__item.icon-high, .sublist-drop__li .dropdown__item.icon-low {
+  padding-left: 35px;
+
+}
+
 
 .icon-low {
   background-image: url("../img/dashboard/low.svg");
@@ -876,6 +883,7 @@ body[data-theme=light] .dropdown__item_conf,
 }
 .dashboard-content__actions {
   display: flex;
+  align-items: center;
 }
 .dashboard-content__line {
   max-width: 280px;
@@ -1333,6 +1341,9 @@ body[data-theme=light] .log-form__line_search {
 .pagination__list {
   display: flex;
 }
+.pagination__list li{
+  margin: 0 7.5px;
+}
 .pagination__li {
   margin: 0 7.5px;
 }
@@ -1366,10 +1377,20 @@ body[data-theme=light] .log-form__line_search {
 .pagination__btn_icon-r {
   transform: rotate(-180deg);
 }
+.pagination__list li a{
+  font-weight: 600;
+  line-height: 19px;
+  color: #4E5559;
+  cursor: pointer;
+}
 .pagination__item {
   font-weight: 600;
   line-height: 19px;
   color: #4E5559;
+ 
+}
+.pagination__list .selected a{
+  color: #00D1FF !important;
 }
 .pagination__item._active, .pagination__item:hover {
   color: #00D1FF;
@@ -1881,6 +1902,13 @@ body[data-theme=light] .log-form__line_search {
 .aside-switch_l {
   color: var(--colors-gray);
   font-weight: 700;
+}
+._icon-res{
+  background-image: url('../img/dashboard/reset-svgrepo-com.svg');
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+
 }
 
 body[data-theme=light] .aside-switch_l {

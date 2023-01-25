@@ -2,7 +2,7 @@
   "tickets": [
     {
       "id": 1,
-      "title": "Problema de sistem",
+      "title": "C Problema de sistem",
       "author": "Jora Cardan",
       "date": "12 12 2023",
       "priority": [
@@ -58,7 +58,7 @@
         "user2"
       ],
       "title": [
-        "subject2"
+        "E subject2"
       ],
       "category": [
         "Support"
@@ -145,7 +145,7 @@
         "user1"
       ],
       "title": [
-        "subject2"
+        "F subject2"
       ],
       "category": [
         "Support"
@@ -211,7 +211,7 @@
         "user2"
       ],
       "title": [
-        "subject2"
+        "D subject2"
       ],
       "category": [
         "Development"
@@ -233,7 +233,7 @@
         "user2"
       ],
       "title": [
-        "subject3"
+        "G subject3"
       ],
       "category": [
         "Support"
@@ -246,6 +246,62 @@
       "date": "16 01 2023",
       "edit": "16 01 2023",
       "id": 15
+    },
+    {
+      "id": 20,
+      "title": "B Am nevoie de ajutor",
+      "author": "Jora Cardan",
+      "date": "12 12 2023",
+      "priority": [
+        "Medium"
+      ],
+      "category": "support",
+      "status": "Responsible",
+      "edit": "10 12 2023"
+    },
+    {
+      "author": [
+        "Jora Cardan"
+      ],
+      "to": [
+        "user3"
+      ],
+      "title": [
+        "subject2"
+      ],
+      "category": [
+        "Support"
+      ],
+      "priority": [
+        "Medium"
+      ],
+      "body": "fdgdfgfg",
+      "status": "Responsible",
+      "date": "24 01 2023",
+      "edit": "24 01 2023",
+      "id": 21
+    },
+    {
+      "author": [
+        "Dumitru Vartan"
+      ],
+      "to": [
+        "user3"
+      ],
+      "title": [
+        "subject3"
+      ],
+      "category": [
+        "Development"
+      ],
+      "priority": [
+        "High"
+      ],
+      "body": "sdfsdf",
+      "status": "Not responsible",
+      "date": "24 01 2023",
+      "edit": "24 01 2023",
+      "id": 22
     }
   ],
   "profile": {

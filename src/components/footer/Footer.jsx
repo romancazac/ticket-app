@@ -1,70 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../../App';
 import { useSelect } from '../../hooks/select.hook';
+import { Pagination } from '../pagination/Pagination';
 import { Select } from '../select/Select';
 
-const Footer = () => {
-  
-  const [page, setPage] = useState([])
+const Footer = ({}) => {
+const {perPage, setPerPage } = useContext(AppContext)
 
-    return (
-        <footer className="dashboard-content__footer footer-dash">
-        <div className="footer-dash__left">
-          <div className="footer-dash__drop">
 
-            <Select
-                dropItems={[100,60,30]}
-                activeClient={page}
-                setActiveClient={setPage}
-                checkbox={false}
-                className={"footer-dash__dropdown "}
-              />
-            per page
-          </div>
-          <div className="footer-dash__center pagination">
-            <nav className="pagination__nav">
-              <ul className="pagination__list">
-                <li className="pagination__li pagination__li_icon">
-                  <button className="pagination__btn pagination__btn_icon pagination__btn_icon-l"></button>
-                </li>
-                <li className="pagination__li pagination__li_icon">
-                  <button className="pagination__btn pagination__btn_icon pagination__btn_icon-l_m"></button>
-                </li>
+  return (
+    <footer className="dashboard-content__footer footer-dash">
+      <div className="footer-dash__left">
+        <div className="footer-dash__drop">
 
-                <li className="pagination__li">
-                  <button className="pagination__item _active">1</button>
-                </li>
-                <li className="pagination__li">
-                  <button className="pagination__item">3</button>
-                </li>
-                <li className="pagination__li">
-                  <button className="pagination__item">4</button>
-                </li>
-                <li className="pagination__li">
-                  <button className="pagination__item">5</button>
-                </li>
-                <li className="pagination__li">
-                  <button className="pagination__item">...</button>
-                </li>
-                <li className="pagination__li">
-                  <button className="pagination__item">20</button>
-                </li>
-
-                <li className="pagination__li pagination__li_icon">
-                  <button className="pagination__btn pagination__btn_icon pagination__btn_icon-r"></button>
-                </li>
-                <li className="pagination__li pagination__li_icon">
-                  <button className="pagination__btn pagination__btn_icon pagination__btn_icon-r_m"></button>
-                </li>
-              </ul>
-            </nav>
-          </div>
+          <Select
+            dropItems={[100, 60, 30]}
+            activeClient={perPage}
+            setActiveClient={setPerPage }
+            checkbox={false}
+            className={"footer-dash__dropdown "}
+            placeholder={'100'}
+          />
+          per page
         </div>
-
-        <div className="footer-dash__copy">
-          Copyright © 2022-2023 All rights reserved.
+        <div className="footer-dash__center pagination">
+          <Pagination />
         </div>
-      </footer>
-    );
+      </div>
+
+      <div className="footer-dash__copy">
+        Copyright © 2022-2023 All rights reserved.
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

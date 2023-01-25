@@ -3,7 +3,7 @@ import Ticket from '../components/ticket/Ticket';
 import Loader from "../components/loader/Loader";
 import { AppContext } from '../App';
 export const TicketList = ({ticketInfo}) => {
-   const { data, load } = useContext(AppContext);
+   const { data, load} = useContext(AppContext);
 
    return (
 
@@ -12,6 +12,7 @@ export const TicketList = ({ticketInfo}) => {
                load
                   ?
                   <Loader />
+                  
                   :
                   data?.map((item) =>
                      <Ticket key={item.id} {...item}  ticketInfo={ticketInfo} />

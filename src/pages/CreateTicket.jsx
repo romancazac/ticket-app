@@ -48,6 +48,7 @@ export const CreateTicket = () => {
                 setActiveClient={setClient}
                 checkbox={true}
                 className={"ticket-create__dropdown"}
+                placeholder={'Select'}
               />
             </div>
             <div className="ticket-create__line">
@@ -58,6 +59,7 @@ export const CreateTicket = () => {
                 setActiveClient={setTo}
                 checkbox={true}
                 className={"ticket-create__dropdown"}
+                placeholder={'Select'}
               />
             </div>
             <div className="ticket-create__line">
@@ -68,6 +70,7 @@ export const CreateTicket = () => {
                 setActiveClient={setSubject}
                 checkbox={true}
                 className={"ticket-create__dropdown"}
+                placeholder={'Select'}
               />
             </div>
           </div>
@@ -80,6 +83,7 @@ export const CreateTicket = () => {
                 setActiveClient={setCategory}
                 checkbox={false}
                 className={"ticket-create__dropdown"}
+                placeholder={'Select'}
               />
 
             </div>
@@ -91,6 +95,7 @@ export const CreateTicket = () => {
                 setActiveClient={setPriority}
                 checkbox={false}
                 className={"ticket-create__dropdown"}
+                placeholder={'Select'}
               />
             </div>
           </div>

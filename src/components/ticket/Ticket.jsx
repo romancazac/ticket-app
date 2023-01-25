@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useIcon } from "../../hooks/icon.hook";
 
-const Ticket = ({ title, id, author, date, responsible, priority, edit, ticketInfo, status}) => {
+const Ticket = ({ title, id, author, date, priority, edit, ticketInfo, status}) => {
 
   const { iconRow, iconLable, iconSet } = useIcon();
-
+  const {idn} = useParams();
   useEffect(() => {
     iconSet(priority.toString().toLowerCase())
   }, [])
   return (
-    <Link to={`/tickets/${id}`} className="content-body__row content-row">
+    <Link to={`/tickets/${id}`} className={id == idn ? 'content-body__row content-row _active' : 'content-body__row content-row'}>
       <span className={`content-row__icon ${iconRow}`}></span>
       <div className="content-row__column">
         <div className="content-row__title">{title}</div>
@@ -25,7 +25,7 @@ const Ticket = ({ title, id, author, date, responsible, priority, edit, ticketIn
 
             <div className="content-row__column">
               <span className="content-row__date">Created:{date}</span>
-              <span className="content-row__username">Edited:{edit}</span>
+              <span className="content-row__date">Edited:{edit}</span>
             </div>
           </>
           :

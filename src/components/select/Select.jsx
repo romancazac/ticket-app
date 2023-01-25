@@ -2,7 +2,7 @@ import React,{useEffect} from 'react'
 import { useSelect } from '../../hooks/select.hook';
 import DropDown from '../dropdown/DropDown';
 
-export const Select = ({dropItems,setActiveClient, activeClient, checkbox, className }) => {
+export const Select = ({dropItems,setActiveClient, activeClient, checkbox, className, placeholder }) => {
 
 
    // const {onUser, users, setUsers,activeClient,setActiveClient} = useSelect();
@@ -15,7 +15,7 @@ export const Select = ({dropItems,setActiveClient, activeClient, checkbox, class
    }, [])
    return (
       <DropDown
-         title={activeClient + '' || "S"}
+         title={ `${activeClient}` || `${placeholder}` }
          className={className}
          dropIcon={
             <svg fill="none">
