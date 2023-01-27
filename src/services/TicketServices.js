@@ -1,5 +1,6 @@
 import { useHttp } from '../hooks/http.hook';
-
+import {  db } from '../firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 const useTicketService = () => {
     const { loading, request, error, clearError } = useHttp();
 
@@ -24,8 +25,14 @@ const useTicketService = () => {
         return res
     }
     const getTicket = async (id) => {
-        const res = await request(`${_apiBase}tickets/${id}`);
-        return res
+        // const res = await request(`${_apiBase}tickets/${id}`);
+        // return res
+        const q = query(collection(db, 'tickets'), where("id", "==", `${id}`));
+
+        const querySnapshot = await getDocs(q);
+  
+        const datas = querySnapshot.docs.map(doc => (doc.data()))
+        return datas
     }
     const createTicket = async (obj) => {
         const res = await request(`${_apiBase}tickets/`, 'POST', obj);

@@ -11,12 +11,16 @@ import { TicketInfo } from './pages/TicketInfo';
 import { TicketList } from "./pages/TicketList";
 import { Reports } from './pages/Reports';
 import { CreateTicket } from './pages/CreateTicket';
-
+import { Login } from './components/login/LogIn';
+import { Registration } from './components/registration/Registration';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from './firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 export const AppContext = createContext();
 
 function App() {
 
-  const currentUser = true;
+  const [currentUser, setCurrentUser] = useState({});
   const { getAllTickets } = useTicketService();
 
 
@@ -89,14 +93,36 @@ function App() {
     setValue(text);
     updateSearch(text)
   }
+  useEffect(() => {
+    const unSub = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      console.log(user)
+    });
+    return () => {
+      unSub();
+    }
+  }, [])
 
-  const fetchTickets = () => {
+  const fetchTickets = async () => {
     setLoad(true)
-    getAllTickets({ filter, value, sort, create, priority, category, status, currentPage, perPage })
-      .then((data) => {
-        setData(data)
-      })
-    setLoad(false)
+    // getAllTickets({ filter, value, sort, create, priority, category, status, currentPage, perPage })
+    //   .then((data) => {
+    //     setData(data)
+    //   })
+
+    try {
+      const q = query(collection(db, 'tickets'), where("to", "array-contains", `${currentUser.displayName}`));
+
+      const querySnapshot = await getDocs(q);
+
+      const datas = querySnapshot.docs.map(doc => (doc.data()))
+      setData(datas)
+      setLoad(false)
+    } catch (error) {
+      setLoad(true)
+      console.log(error)
+    }
+
   }
 
 
@@ -104,12 +130,13 @@ function App() {
 
     fetchTickets()
 
-  }, [filter, search, sort, create, priority, category, currentPage, perPage]);
+  }, [filter, search, sort, create, priority, category, currentPage, perPage, currentUser]);
 
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/" />
+
     }
     return children
   }
@@ -131,20 +158,26 @@ function App() {
       perPage,
       setPerPage,
       onPaginationPage,
-      onResetFilter
+      onResetFilter,
+      currentUser
 
     }}>
 
 
       <div className="wrapper" data-theme={theme ? "light" : "dark"}>
-        <main className={locationUrl ? "page page-dashboard" : "page page-home"}>
+        <main className={!locationUrl || locationUrl == "create-account" ? "page page-home" : "page page-dashboard"}>
           <Routes>
-            <Route path="/" element={<SignIn user={currentUser} />} />
+            <Route path="/" element={<SignIn />} >
+              <Route path="/" element={<Login title="Sign in" />} />
+              <Route path="create-account" element={<Registration title="Create account" />} />
+            </Route>
+
             <Route path="/" element={<Dashboard />}>
               <Route path="tickets" element={<ProtectedRoute><TicketList /></ProtectedRoute>} />
-              <Route path="tickets/:idn" element={<TicketInfo />} />
-              <Route path="reports" element={<Reports />} />
-              <Route path="create" element={<CreateTicket />} />
+              <Route path="tickets/:idn" element={<ProtectedRoute><TicketInfo /></ProtectedRoute>} />
+              <Route path="reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+              <Route path="create" element={<ProtectedRoute><CreateTicket /></ProtectedRoute>} />
+
             </Route>
 
           </Routes>

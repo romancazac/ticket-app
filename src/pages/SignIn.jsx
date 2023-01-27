@@ -1,17 +1,9 @@
 import React from 'react'
-import {  useNavigate } from 'react-router-dom';
+import {  Outlet, useNavigate } from 'react-router-dom';
 
-const SignIn = ({user}) => {
 
-	const history = useNavigate();
+const SignIn = ({user, children}) => {
 
-	const  handleLog = (e) => {
-		e.preventDefault();
-		if(user){
-			history('/tickets')
-		}
-		
-	} 
 	return (
 			<div className="page-home__container">
 				<div className="page-home__row">
@@ -20,7 +12,9 @@ const SignIn = ({user}) => {
 						<h2 className="page-home__subtitle">Let’s get started!</h2>
 					</div>
 					<div className="page-home__column">
-						<form action="#" className="page-home__form log-form">
+						<Outlet/>
+						
+						{/* <form action="#" className="page-home__form log-form">
 							<h3 className="log-form__title">
 								Sign in
 							</h3>
@@ -29,9 +23,9 @@ const SignIn = ({user}) => {
 							</div>
 							<div className="log-form__line log-form__line_pass">
 								<input type="password" name="password" placeholder="Password" className="log-form__inp "/>
-								<button className="log-form__show _hidden"></button>
+								<button className="log-form__show _hidden"></button> */}
 								{/* <!-- remove className hidden  --> */}
-							</div>
+							{/* </div>
 							<button type="submit" className="log-form__btn"
 							onClick={handleLog}
 							>Login</button>
@@ -41,8 +35,10 @@ const SignIn = ({user}) => {
 									<label htmlFor="formLog" className="checkbox__label"><span>Remember me</span></label>
 								</div>
 								<a href="#" className="log-form__forg">Forgot password?</a>
-							</div>
-						</form>
+							</div> */}
+						{/* </form> */}
+						{/* <Registrtion title="Sign in"/> */}
+						
 					</div>
 				</div>
 			</div>

@@ -1,21 +1,21 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useSelect } from '../../hooks/select.hook';
 import DropDown from '../dropdown/DropDown';
-
-export const Select = ({dropItems,setActiveClient, activeClient, checkbox, className, placeholder }) => {
+import { uid } from 'uid';
+export const Select = ({ dropItems, setActiveClient, activeClient, checkbox, className, placeholder }) => {
 
 
    // const {onUser, users, setUsers,activeClient,setActiveClient} = useSelect();
-   const {onUser, users, setUsers} = useSelect();
-
+   const { onUser, users, setUsers } = useSelect();
+   console.log(users)
 
    useEffect(() => {
       setUsers(dropItems);
-     
+
    }, [])
    return (
       <DropDown
-         title={ `${activeClient}` || `${placeholder}` }
+         title={`${activeClient}` || `${placeholder}`}
          className={className}
          dropIcon={
             <svg fill="none">
@@ -25,36 +25,37 @@ export const Select = ({dropItems,setActiveClient, activeClient, checkbox, class
       >
          <ul className="dropdown__items">
             {
-               users.map((user, i) =>
-              
+               users?.map((user, i) =>
+
                   <li key={user}>
                      <div className="dropdown__item checkbox" >
                         {
                            checkbox ?
-                           <>
-                           <input id={user}
-                              type="checkbox"
-                              name="remember"
-                              onClick={
-                                 () => onUser(i, activeClient, setActiveClient,checkbox)}
-                              className="checkbox__input" />
-                           <label htmlFor={user}
-                              className="checkbox__label"><span>{user}</span></label>
-                           </>
-                           :
-                           <span
-                             
-                           onClick={
-                              () => onUser(i, activeClient, setActiveClient,checkbox)}
-                            >{user}</span>
+                              <>
+                                 <input id={user}
+                                    type="checkbox"
+                                    name="remember"
+                                    onClick={
+                                       () => onUser(i, activeClient, setActiveClient, checkbox)}
+                                    className="checkbox__input" />
+                                 <label htmlFor={user}
+                                    className="checkbox__label"><span>{user
+                                    }</span></label>
+                              </>
+                              :
+                              <span
+
+                                 onClick={
+                                    () => onUser(i, activeClient, setActiveClient, checkbox)}
+                              >{user}</span>
                         }
-               
-                     
+
+
                      </div>
                   </li>
-              
-            
-               
+
+
+
                )
             }
 

@@ -383,6 +383,9 @@ h6 {
 .log-form__line_pass {
   background-image: url("../img/log/lock.svg") !important;
 }
+.log-form__line_file {
+  background-image: url("../img/log/img-load-box-svgrepo-com.svg") !important;
+}
 .log-form__inp {
   width: 100%;
   height: 55px;
@@ -496,6 +499,12 @@ h6 {
   font-size: 32px;
   color: var(--colors-logo);
   margin-bottom: 20px;
+  overflow: hidden;
+}
+.aside__logo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 @media (min-width: 1200px) {
   .aside__logo {

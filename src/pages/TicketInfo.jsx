@@ -11,38 +11,51 @@ export const TicketInfo = () => {
    const [ticket, setTicket ] = useState([]);
 
    const fetchTicket = () => {
-      getTicket(idn).then((res) => setTicket(res))
       
+      getTicket(idn).then((res) => {
+         
+         setTicket(res)
+
+
+      })
+    
    }
    
-   useEffect(() => {
-      iconSet(ticket.priority?.toString().toLowerCase()); 
-   },[ticket]);
-   useEffect(() => {
-      fetchTicket()
-   },[idn]);
 
+   useEffect(() => {
+      return () => {
+         fetchTicket()
+      }
+      
+   },[idn]);
+   useEffect(() => {
+      iconSet(ticket[0]?.priority.toString().toLowerCase()); 
+   },[ticket]);
+   console.log(ticket)
    return (
       <div className="dashboard-content__body content-body content-body_columns">
          <TicketList  ticketInfo={true}/>
          <div className="content-body__rows ticket-info">
             <div className="ticket-info__header">
-               <div className="ticket-info__top">
-                  <h4 className="ticket-info__title">
-                    {ticket.title}
-                  </h4>
-                  <div className="ticket-info__info">
-                     <div className={`ticket-info__status ${iconLable}`}>
-                        Piority
-                     </div>
-                     <span>Category: {ticket.category}</span>
-                  </div>
-               </div>
+  
+                   <div className="ticket-info__top">
+                   <h4 className="ticket-info__title">
+                     {ticket[0]?.title}
+                   </h4>
+                   <div className="ticket-info__info">
+                      <div className={`ticket-info__status ${iconLable}`}>
+                         Piority
+                      </div>
+                      <span>Category: {ticket[0]?.category}</span>
+                   </div>
+                </div>
+
+           
                <div className="ticket-info__top ticket-body">
-                  <p className="ticket-body__text">{ticket.body}</p>
+                  <p className="ticket-body__text">{ticket[0]?.body}</p>
                   <div className="ticket-body__bottom">
                      <div className="ticket-body__l">
-                        <span className="ticket-body__name">User name</span>
+                        <span className="ticket-body__name">{ticket[0]?.author}</span>
                         <div className="ticket-body__date">
                            <span className="ticket-body__hor">14:00</span>
                            , 12 November 2022

@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
-
-
+import { AppContext } from "../App";
+import {signOut} from "firebase/auth"
+import { auth } from '../firebase'
 import DropDown from "../components/dropdown/DropDown";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
@@ -13,6 +14,7 @@ import Switch from "../components/switch/Switch";
 
 const Dashboard = ({children}) => {
 
+  const{currentUser} = useContext(AppContext)
   const dropItems = [
     {
       title: "Configuration",
@@ -22,6 +24,9 @@ const Dashboard = ({children}) => {
     {
       title: "Log out",
       url: "/",
+      logOut:function(){
+        signOut(auth)
+      }
     },
   ];
 
@@ -36,11 +41,11 @@ const Dashboard = ({children}) => {
           <span></span>
         </button>
         <a href="#" className="aside__logo">
-          KG
+          <img src={currentUser?.photoURL} alt="" />
         </a>
         <div className="aside__top">
           <DropDown
-            title="Katerina Gorgos"
+            title={currentUser?.displayName}
             className={"aside__dropdown"}
             dropIcon={
               <svg fill="none">
@@ -50,7 +55,7 @@ const Dashboard = ({children}) => {
           >
             <ul className="dropdown__items">
               {dropItems?.map((item) => (
-                <li key={item.title}>
+                <li key={item.title} onClick={item.logOut && item.logOut}>
                   <a
                     className={
                       item.icon

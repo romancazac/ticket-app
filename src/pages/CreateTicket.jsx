@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+
+import { db } from '../firebase';
+import { useContext } from "react";
+import { AppContext } from "../App";
 
 import { Select } from "../components/select/Select";
-import useTicketService from "../services/TicketServices";
-export const CreateTicket = () => {
 
+import useTicketService from "../services/TicketServices";
+import { uid } from "uid";
+export const CreateTicket = () => {
+  const { currentUser } = useContext(AppContext)
+  const [users, setUsers] = useState([]);
+  const [load, setLoad] = useState(false);
   const { createTicket } = useTicketService()
 
   const [client, setClient] = useState([]);
@@ -14,25 +23,72 @@ export const CreateTicket = () => {
   const [body, setBody] = useState([]);
   const [status, setStatus] = useState([]);
   const dateCreate = new Date();
-  const parseDate = dateCreate.getDate()+' '+dateCreate.getMonth()+1 +' '+ dateCreate.getFullYear();
+  const parseDate = dateCreate.getDate() + ' ' + dateCreate.getMonth() + 1 + ' ' + dateCreate.getFullYear();
 
-  const handleForm = (e) => {
+
+
+
+
+  const handleForm = async (e) => {
     e.preventDefault();
-    const dataForm = {
+    // const dataForm = {
+    //   author: client,
+    //   to: to,
+    //   title: subject,
+    //   category: category,
+    //   priority: priority,
+    //   body: body,
+    //   status: status,
+    //   date: parseDate,
+    //   edit: parseDate
+
+    // };
+    // createTicket(JSON.stringify(dataForm))
+
+    const events = collection(db, "tickets")
+    addDoc(events, {
+      id:uid(),
       author: client,
       to: to,
       title: subject,
       category: category,
       priority: priority,
-      body:body,
-      status:status,
-      date:parseDate,
-      edit:parseDate
+      body: body,
+      status: status,
+      date: parseDate,
+      edit: parseDate
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err)
+      })
 
-    };
-    createTicket(JSON.stringify(dataForm))
-    
+
+    // createTicket(JSON.stringify(dataForm))
+
   };
+
+
+
+  useEffect(() => {
+    const fetchUsers = () => {
+      const dataBaseRef = collection(db, 'users');
+      getDocs(dataBaseRef)
+        .then(res => {
+          const datas = res.docs.map(doc => (doc.data()));
+          setUsers(datas.filter((item) => item.uid !== currentUser.uid))
+          setLoad(true)
+        })
+
+    }
+    return () => {
+      fetchUsers()
+    }
+  }, [])
+
+ 
 
   return (
     <form className="content-body__rows ticket-info" onSubmit={handleForm}>
@@ -41,26 +97,32 @@ export const CreateTicket = () => {
           <div className="ticket-create__colum">
             <div className="ticket-create__line">
               <span className="ticket-create__lable">*Client:</span>
+              {load &&
+                <Select
+                  dropItems={[currentUser.displayName]}
+                  activeClient={client}
+                  setActiveClient={setClient}
+                  checkbox={true}
+                  className={"ticket-create__dropdown"}
+                  placeholder={'Select'}
+                /> 
 
-              <Select
-                dropItems={["Jora Cardan", "Vanea Caldare", "Dumitru Vartan"]}
-                activeClient={client}
-                setActiveClient={setClient}
-                checkbox={true}
-                className={"ticket-create__dropdown"}
-                placeholder={'Select'}
-              />
+              }
+
             </div>
             <div className="ticket-create__line">
               <span className="ticket-create__lable">To:</span>
-              <Select
-                dropItems={["user1", "user2", "user3"]}
-                activeClient={to}
-                setActiveClient={setTo}
-                checkbox={true}
-                className={"ticket-create__dropdown"}
-                placeholder={'Select'}
-              />
+              {load &&
+                <Select
+                  dropItems={users.map((item) => item.displayName)}
+                  activeClient={to}
+                  setActiveClient={setTo}
+                  checkbox={true}
+                  className={"ticket-create__dropdown"}
+                  placeholder={'Select'}
+                /> 
+
+              }
             </div>
             <div className="ticket-create__line">
               <span className="ticket-create__lable">*Subject:</span>
@@ -90,7 +152,7 @@ export const CreateTicket = () => {
             <div className="ticket-create__line">
               <span className="ticket-create__lable">Priority:</span>
               <Select
-                dropItems={['High','Medium', 'Low']}
+                dropItems={['High', 'Medium', 'Low']}
                 activeClient={priority}
                 setActiveClient={setPriority}
                 checkbox={false}
@@ -110,10 +172,10 @@ export const CreateTicket = () => {
               value={body}
               onChange={(e) => setBody(e.target.value)}
               id="#"
-           
-           />
-            
-        
+
+            />
+
+
           </div>
 
           <div className="form-ticket__row">
