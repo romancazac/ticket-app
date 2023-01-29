@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc,setDoc, doc } from "firebase/firestore";
 
 import { db } from '../firebase';
 import { useContext } from "react";
@@ -44,10 +44,11 @@ export const CreateTicket = () => {
 
     // };
     // createTicket(JSON.stringify(dataForm))
-
-    const events = collection(db, "tickets")
-    addDoc(events, {
-      id:uid(),
+    const idTicket = uid();
+    const tickets = collection(db, "tickets");
+   
+    await addDoc(tickets, {
+      id:idTicket,
       author: client,
       to: to,
       title: subject,
@@ -56,15 +57,13 @@ export const CreateTicket = () => {
       body: body,
       status: status,
       date: parseDate,
-      edit: parseDate
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      edit: parseDate,
+    });
 
+      //create empty  chat on firestore
+      await setDoc(doc(db, "userChats", idTicket), {
+        messages:[]
+      });
 
     // createTicket(JSON.stringify(dataForm))
 

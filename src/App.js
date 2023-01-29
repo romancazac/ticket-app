@@ -111,12 +111,17 @@ function App() {
     //   })
 
     try {
-      const q = query(collection(db, 'tickets'), where("to", "array-contains", `${currentUser.displayName}`));
-
+      const user = currentUser.displayName;
+      const q =  query(collection(db, 'tickets'), where("to", "array-contains", `${user}`));
+      const q2 =  query(collection(db, 'tickets'), where("author", "array-contains", `${user}`));
       const querySnapshot = await getDocs(q);
+      const querySnapshot2 = await getDocs(q2);
 
-      const datas = querySnapshot.docs.map(doc => (doc.data()))
-      setData(datas)
+      const data1 = querySnapshot.docs.map(doc => (doc.data()))
+      const data2 = querySnapshot2.docs.map(doc => (doc.data()))
+      
+    console.log(querySnapshot)
+      setData([...data1, ...data2])
       setLoad(false)
     } catch (error) {
       setLoad(true)

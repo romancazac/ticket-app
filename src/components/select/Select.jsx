@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { useSelect } from '../../hooks/select.hook';
 import DropDown from '../dropdown/DropDown';
-import { uid } from 'uid';
+
 export const Select = ({ dropItems, setActiveClient, activeClient, checkbox, className, placeholder }) => {
 
 
    // const {onUser, users, setUsers,activeClient,setActiveClient} = useSelect();
    const { onUser, users, setUsers } = useSelect();
-   console.log(users)
 
    useEffect(() => {
       setUsers(dropItems);
