@@ -7,6 +7,7 @@ import SignIn from './pages/SignIn';
 
 import './css/style.css'
 import useTicketService from './services/TicketServices';
+import useFilterData from './hooks/filter.hook'
 import { TicketInfo } from './pages/TicketInfo';
 import { TicketList } from "./pages/TicketList";
 import { Reports } from './pages/Reports';
@@ -15,7 +16,8 @@ import { Login } from './components/login/LogIn';
 import { Registration } from './components/registration/Registration';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+
+
 export const AppContext = createContext();
 
 function App() {
@@ -23,15 +25,14 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const { getAllTickets } = useTicketService();
 
+  const {data, setData,onFiltrFnc, setFilterData, filterData} = useFilterData();
 
   const location = useLocation();
   const locationUrl = location.pathname.slice(1);
 
   const [theme, setTheme] = useState(false);
 
-  const [data, setData] = useState([]);
-
-  const [currentPage, setCurrentPage] = useState(0);
+ 
 
   const [perPage, setPerPage] = useState([30]);
 
@@ -52,12 +53,37 @@ function App() {
 
   const [load, setLoad] = useState(true);
 
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(2);
+
+
+  
+    const onPaginationPage = (nr) => {
+      setCurrentPage(nr)
+    }
+  
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
+  console.log(currentPosts)
+    useEffect(() => {
+      // Get current posts
+ 
+   
+    setData(
+      prev => prev.slice(indexOfFirstPost, indexOfLastPost)
+    )
+  },[])
+
   const onSwitch = () => {
     setTheme(!theme)
   }
 
   const onFilter = (i) => {
-    setFilter(i)
+    setFilter(i);
   }
   const onSort = (name) => {
     setSort(name)
@@ -65,14 +91,14 @@ function App() {
   }
   const onCreate = (name) => {
     setCreate(name)
+    filtersFnc(name)
   }
   const onResetFilter = () => {
-    setFilter('')
-    setSortSub('')
-    setSort('')
-  }
-  const onPaginationPage = (nr) => {
-    setCurrentPage(nr)
+    setFilter('');
+    setSortSub('');
+    setSort('');
+    setData(filterData);
+  
   }
 
   const onSortSub = (name) => {
@@ -80,8 +106,16 @@ function App() {
     setPriority(name)
     setCategory(name)
     setStatus(name)
-
+    filtersFnc(name)
   }
+  const filtersFnc = prop => {
+  
+    onFiltrFnc(prop,create,category,status,priority )
+    
+
+
+ 
+  };
 
   const updateSearch = useCallback(
     debounce((value) => {
@@ -96,7 +130,7 @@ function App() {
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      console.log(user)
+
     });
     return () => {
       unSub();
@@ -105,28 +139,13 @@ function App() {
 
   const fetchTickets = async () => {
     setLoad(true)
-    // getAllTickets({ filter, value, sort, create, priority, category, status, currentPage, perPage })
-    //   .then((data) => {
-    //     setData(data)
-    //   })
+    getAllTickets({ currentUser, value, sort, create, priority, status, perPage})
+      .then((data) => {
+        setFilterData(data)
+        setData(data);
+        setLoad(false)
 
-    try {
-      const user = currentUser.displayName;
-      const q =  query(collection(db, 'tickets'), where("to", "array-contains", `${user}`));
-      const q2 =  query(collection(db, 'tickets'), where("author", "array-contains", `${user}`));
-      const querySnapshot = await getDocs(q);
-      const querySnapshot2 = await getDocs(q2);
-
-      const data1 = querySnapshot.docs.map(doc => (doc.data()))
-      const data2 = querySnapshot2.docs.map(doc => (doc.data()))
-      
-    console.log(querySnapshot)
-      setData([...data1, ...data2])
-      setLoad(false)
-    } catch (error) {
-      setLoad(true)
-      console.log(error)
-    }
+      })
 
   }
 
@@ -135,7 +154,7 @@ function App() {
 
     fetchTickets()
 
-  }, [filter, search, sort, create, priority, category, currentPage, perPage, currentUser]);
+  }, [search, sort, perPage, currentUser,]);
 
 
   const ProtectedRoute = ({ children }) => {
@@ -164,7 +183,8 @@ function App() {
       setPerPage,
       onPaginationPage,
       onResetFilter,
-      currentUser
+      currentUser,
+      currentPosts
 
     }}>
 

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, addDoc,setDoc, doc } from "firebase/firestore";
-
+import { collection, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
+import useTicketService from '../services/TicketServices';
 import { db } from '../firebase';
 import { useContext } from "react";
 import { AppContext } from "../App";
 
 import { Select } from "../components/select/Select";
 
-import useTicketService from "../services/TicketServices";
 import { uid } from "uid";
 export const CreateTicket = () => {
-  const { currentUser } = useContext(AppContext)
+  const {createTicket} = useTicketService();
+
+  const { currentUser } = useContext(AppContext);
+
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(false);
-  const { createTicket } = useTicketService()
-
   const [client, setClient] = useState([]);
   const [to, setTo] = useState([]);
   const [subject, setSubject] = useState([]);
@@ -31,26 +31,13 @@ export const CreateTicket = () => {
 
   const handleForm = async (e) => {
     e.preventDefault();
-    // const dataForm = {
-    //   author: client,
-    //   to: to,
-    //   title: subject,
-    //   category: category,
-    //   priority: priority,
-    //   body: body,
-    //   status: status,
-    //   date: parseDate,
-    //   edit: parseDate
 
-    // };
-    // createTicket(JSON.stringify(dataForm))
     const idTicket = uid();
-    const tickets = collection(db, "tickets");
-   
-    await addDoc(tickets, {
-      id:idTicket,
-      author: client,
-      to: to,
+
+    const dataForm = {
+      id: idTicket,
+      author: client.toString(),
+      to: to.toString(),
       title: subject,
       category: category,
       priority: priority,
@@ -58,15 +45,18 @@ export const CreateTicket = () => {
       status: status,
       date: parseDate,
       edit: parseDate,
-    });
-
-      //create empty  chat on firestore
-      await setDoc(doc(db, "userChats", idTicket), {
-        messages:[]
-      });
-
-    // createTicket(JSON.stringify(dataForm))
-
+    }
+    // async function 
+    createTicket(dataForm, idTicket);
+    
+    // res form
+    setClient([]);
+    setTo([]);
+    setSubject([]);
+    setCategory([]);
+    setPriority([]);
+    setBody([]);
+    setStatus([]);
   };
 
 
@@ -87,7 +77,7 @@ export const CreateTicket = () => {
     }
   }, [])
 
- 
+
 
   return (
     <form className="content-body__rows ticket-info" onSubmit={handleForm}>
@@ -104,7 +94,7 @@ export const CreateTicket = () => {
                   checkbox={true}
                   className={"ticket-create__dropdown"}
                   placeholder={'Select'}
-                /> 
+                />
 
               }
 
@@ -119,7 +109,7 @@ export const CreateTicket = () => {
                   checkbox={true}
                   className={"ticket-create__dropdown"}
                   placeholder={'Select'}
-                /> 
+                />
 
               }
             </div>

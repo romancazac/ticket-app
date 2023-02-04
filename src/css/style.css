@@ -1477,7 +1477,7 @@ body[data-theme=light] .log-form__line_search {
 }
 @media (min-width: 95.625em) {
   .ticket-body__text {
-    min-height: 9.375rem;
+    min-height: 50px;
   }
 }
 @media (min-width: 20em) and (max-width: 95.625em) {
@@ -1573,8 +1573,8 @@ body[data-theme=light] .log-form__line_search {
   border-radius: 0px 15px 15px 15px;
   margin: 0 0 20px 0;
   max-width: 90%;
-  /* .message-ticket__text */
-  /* .message-ticket__bottom */
+
+  
 }
 @media (max-width: 900px) {
   .message-ticket {
@@ -1589,11 +1589,7 @@ body[data-theme=light] .log-form__line_search {
 .message-ticket__text {
   padding: 20px;
 }
-@media (min-width: 95.625em) {
-  .message-ticket__text {
-    min-height: 6.25rem;
-  }
-}
+
 @media (min-width: 20em) and (max-width: 95.625em) {
   .message-ticket__text {
     min-height: clamp( 3.125rem , 2.298553719rem  +  4.132231405vw , 6.25rem );
@@ -1649,10 +1645,7 @@ body[data-theme=light] .log-form__line_search {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   padding: 0 20px;
-  /* .form-ticket__textarea */
-  /* .form-ticket__row */
-  /* .form-ticket__select */
-  /* .form-ticket__btns */
+  margin: 0 0 5px 0;
 }
 .form-ticket_redactor {
   margin-top: 20px;
@@ -1670,6 +1663,9 @@ body[data-theme=light] .log-form__line_search {
   display: flex;
   flex-direction: column;
 }
+.form-ticket__elements input {
+  min-height: 40px;
+}
 .form-ticket__body {
   flex: 1 1 auto;
   box-shadow: inset 0px 2px 10px rgba(0, 0, 0, 0.08);
@@ -1679,10 +1675,10 @@ body[data-theme=light] .log-form__line_search {
 }
 .form-ticket__textarea {
   width: 100%;
-  height: 40px;
+  /* height: 40px; */
   background: transparent;
   color: inherit;
-  padding-top: 10px;
+  /* padding-top: 10px; */
   resize: none;
   outline: none;
 }

@@ -14,7 +14,7 @@ const {perPage, setPerPage } = useContext(AppContext)
         <div className="footer-dash__drop">
 
           <Select
-            dropItems={[100, 60, 30]}
+            dropItems={[100, 60, 2]}
             activeClient={perPage}
             setActiveClient={setPerPage }
             checkbox={false}
