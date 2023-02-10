@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import {  useState } from "react";
 export default function useFilterData() {
    
 
@@ -20,16 +20,13 @@ export default function useFilterData() {
          cat = "Not responsible";
       } else if (prop == create && create) {
          cat = create;
-      }
-
+      } 
       const finalCat = filterData.filter(item => item.category == cat);
       const finalPri = filterData.filter(item => item.priority == cat);
       const finalStat = filterData.filter(item => item.status == cat);
       const finalCreate = filterData.filter(item => item.date == cat);
-
+     
       setData(finalPri.length ? finalPri : finalStat.length ? finalStat : finalCreate.length ? finalCreate : finalCat);
-
-    
    }
    
    return {  onFiltrFnc,setFilterData,filterData, data, setData};

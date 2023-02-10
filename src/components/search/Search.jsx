@@ -3,8 +3,8 @@ import React, { useCallback, useContext, useState } from 'react';
 import { AppContext } from '../../App';
 
 const Search = () => {
-    const {value, onSearch,updateSearch} = useContext(AppContext);
-    // const [value, setValue] = useState('');
+    const {value, onSearch} = useContext(AppContext);
+
 
 
     return (

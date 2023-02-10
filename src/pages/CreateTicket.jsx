@@ -11,7 +11,7 @@ import { uid } from "uid";
 export const CreateTicket = () => {
   const {createTicket} = useTicketService();
 
-  const { currentUser } = useContext(AppContext);
+  const { currentUser,fetchTickets } = useContext(AppContext);
 
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(false);
@@ -57,6 +57,7 @@ export const CreateTicket = () => {
     setPriority([]);
     setBody([]);
     setStatus([]);
+    fetchTickets()
   };
 
 

@@ -22,21 +22,17 @@ export const AppContext = createContext();
 
 function App() {
 
+  const location = useLocation();
+  const locationUrl = location.pathname.slice(1);
+
   const [currentUser, setCurrentUser] = useState({});
   const { getAllTickets } = useTicketService();
 
   const {data, setData,onFiltrFnc, setFilterData, filterData} = useFilterData();
 
-  const location = useLocation();
-  const locationUrl = location.pathname.slice(1);
-
   const [theme, setTheme] = useState(false);
 
- 
-
-  const [perPage, setPerPage] = useState([30]);
-
-
+  const [perPage, setPerPage] = useState([100]);
 
   const [filter, setFilter] = useState('');
   const [sort, setSort] = useState('');
@@ -45,38 +41,15 @@ function App() {
   const [priority, setPriority] = useState('');
   const [category, setCategory] = useState('');
   const [status, setStatus] = useState('');
-
   const [sortSub, setSortSub] = useState('');
-
-  const [search, setSearch] = useState('');
+  // search
   const [value, setValue] = useState('');
 
   const [load, setLoad] = useState(true);
 
 
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(2);
 
-
-  
-    const onPaginationPage = (nr) => {
-      setCurrentPage(nr)
-    }
-  
-
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = data.slice(indexOfFirstPost, indexOfLastPost);
-  console.log(currentPosts)
-    useEffect(() => {
-      // Get current posts
- 
-   
-    setData(
-      prev => prev.slice(indexOfFirstPost, indexOfLastPost)
-    )
-  },[])
 
   const onSwitch = () => {
     setTheme(!theme)
@@ -91,7 +64,10 @@ function App() {
   }
   const onCreate = (name) => {
     setCreate(name)
+    
     filtersFnc(name)
+   
+   
   }
   const onResetFilter = () => {
     setFilter('');
@@ -110,22 +86,14 @@ function App() {
   }
   const filtersFnc = prop => {
   
-    onFiltrFnc(prop,create,category,status,priority )
-    
-
-
+    onFiltrFnc(prop,create,category,status,priority)
  
   };
 
-  const updateSearch = useCallback(
-    debounce((value) => {
-      setSearch(value);
-    }, 1000)
-  )
-
   const onSearch = (text) => {
     setValue(text);
-    updateSearch(text)
+
+
   }
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
@@ -139,8 +107,9 @@ function App() {
 
   const fetchTickets = async () => {
     setLoad(true)
-    getAllTickets({ currentUser, value, sort, create, priority, status, perPage})
+    getAllTickets({ currentUser,  sort, create, priority, status, perPage})
       .then((data) => {
+        
         setFilterData(data)
         setData(data);
         setLoad(false)
@@ -149,12 +118,15 @@ function App() {
 
   }
 
-
   useEffect(() => {
 
     fetchTickets()
 
-  }, [search, sort, perPage, currentUser,]);
+  }, [sort]);
+
+
+
+  
 
 
   const ProtectedRoute = ({ children }) => {
@@ -181,11 +153,12 @@ function App() {
       onCreate,
       perPage,
       setPerPage,
-      onPaginationPage,
       onResetFilter,
       currentUser,
-      currentPosts
-
+      perPage, 
+      fetchTickets,
+      setData,
+      filterData
     }}>
 
 

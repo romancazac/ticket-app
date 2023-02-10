@@ -12,7 +12,7 @@ import Switch from "../components/switch/Switch";
 
 
 
-const Dashboard = ({children}) => {
+const Dashboard = () => {
 
   const{currentUser} = useContext(AppContext)
   const dropItems = [

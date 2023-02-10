@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const Message = ({ id, user, message,senderId,currentUser,date }) => {
+export const Message = ({  user, message,senderId,currentUser,date }) => {
    return (
-      <div key={id} className={senderId === currentUser.uid ? "ticket-info__message message-ticket " : "ticket-info__message message-ticket message-ticket_modif"}>
+      <div  className={senderId === currentUser.uid ? "ticket-info__message message-ticket " : "ticket-info__message message-ticket message-ticket_modif"}>
          <p className="message-ticket__text">
             {
                message

@@ -7,26 +7,20 @@ import { collection, getDocs, addDoc, setDoc, doc, query, where, orderBy, limit 
 
 const useTicketService = () => {
     const { loading, request, error, clearError } = useHttp();
-    const [tickets, setTichets] = useState([])
-    const _apiBase = 'http://localhost:3001/';
 
 
 
     const getAllTickets = async (params) => {
-        const { currentUser,  sort, currentPage, perPage } = params;
+        const {   sort, currentPage, perPage } = params;
 
-        try {
-            
-            const user = currentUser.displayName;
-  
-         
+        try {         
             const sortingEdit = sort == "edit" && "edit" ;
             const sortingAuthor = sort == "author" && "author" ;
             const finalSort = sortingEdit || sortingAuthor  || 'edit';
-            const per =  perPage.toString()
+            // const per =  perPage.toString()
 
-            const q = query(collection(db, 'tickets'),orderBy(finalSort , "asc"), limit(!per == false ? per: 10));
-
+            // const q = query(collection(db, 'tickets'),orderBy(finalSort , "asc"), limit(!per == false ? per: 10));
+            const q = query(collection(db, 'tickets'),orderBy(finalSort , "asc"));
             const querySnapshot = await getDocs(q);
 
 

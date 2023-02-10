@@ -1,27 +1,40 @@
-import React from 'react'
-import { useState } from 'react';
-import { useEffect } from 'react';
+import {useEffect,useState} from 'react'
+
 import { useContext } from 'react';
 import ReactPaginate from 'react-paginate';
 import { AppContext } from '../../App';
 
 export const Pagination = () => {
-   const { onPaginationPage,  postsPerPage, totalPosts,} = useContext(AppContext);
-   // const [count , setCount] = useState([])
+
+   const { perPage,setData,filterData} = useContext(AppContext);
+
 
   
-   // const pageCount = Math.ceil(count / (perPage == false ?  100 : perPage ) );
-   // useEffect(() => {
-   //    setCount( data.length)
-   //    console.log(data.length)
-   // },[perPage])
+   const [currentPage, setCurrentPage] = useState(1);
+
+   const indexOfLastPost = currentPage * perPage;
+   const indexOfFirstPost = indexOfLastPost - perPage;
+ 
+   const onPaginationPage = (nr) => {
+     setCurrentPage(nr);
+    
+   }
+ 
+ 
    const pageNumbers = [];
 
-   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+   for (let i = 1; i <= Math.ceil(filterData.length / Number(perPage)); i++) {
        pageNumbers.push(i);
    }
-
-   console.log(pageNumbers)
+   useEffect(() => {
+ 
+      const currentData  = filterData.slice(indexOfFirstPost, indexOfLastPost)
+       setData(
+         currentData
+       )
+       
+       },[currentPage,perPage])
+ console.log(filterData)
 
    return (
       <nav className="pagination__nav">
@@ -33,7 +46,7 @@ export const Pagination = () => {
             }
             onPageChange={(e) => onPaginationPage(e.selected + 1)}
             pageRangeDisplayed={5}
-            pageCount={pageNumbers}
+            pageCount={pageNumbers.length}
             previousLabel={
                <button className="pagination__btn pagination__btn_icon pagination__btn_icon-l"></button>
            }

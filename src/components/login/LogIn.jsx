@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from 'react'
-export const Login = ({title, handleLog}) => {
+export const Login = ({title}) => {
    const navigate = useNavigate();
    const[err, setErr] = useState(false)
    const handleSubmit = (e) => {

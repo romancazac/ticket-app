@@ -1,5 +1,6 @@
-import { sortedLastIndexBy } from "lodash";
-import React, { useContext, useState } from "react";
+
+import { useContext, useState, useEffect } from "react";
+
 import { AppContext } from "../../App";
 import DropDown from "../dropdown/DropDown";
 import FilterItem from "../filter/FilterItem";
@@ -84,26 +85,10 @@ const Header = () => {
 
   ];
 
-  const handleForm = () => {
-    onCreate(`${day} ${month} ${year}`)
+  const handleForm = (e) => {
+    e.preventDefault();
+    onCreate(`${day} ${month} ${year}`);
   }
-  
-
-  React.useEffect(() => {
-
-    const keyDownHandler = event => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        // 👇️ call submit function here
-        handleForm()
-      }
-    };
-
-    document.addEventListener('keydown', keyDownHandler);
-    return () => {
-      document.removeEventListener('keydown', keyDownHandler);
-    };
-  }, [handleForm]);
 
   return (
     <header className="dashboard-content__header">
@@ -170,8 +155,8 @@ const Header = () => {
                               key={subItem.label}
                               className={
                                 sortSub === subItem.label ?
-                                  `dropdown__item ${subItem.icon ? subItem.icon : ''} _active` :
-                                  `dropdown__item ${subItem.icon ? subItem.icon : ''}`
+                                  `dropdown__item ${subItem.icon && subItem.icon} _active` :
+                                  `dropdown__item ${subItem.icon && subItem.icon}`
                               }
                               onClick={() => onSortSub(subItem.label)}
                             >
@@ -185,7 +170,7 @@ const Header = () => {
                       :
                       <ul className="dropdown__sublist sublist-drop">
                         <li >
-                          <form className="sublist-drop__row" onSubmit={handleForm}>
+                          <form className="sublist-drop__row">
                             <input
                               type="text"
                               name="day"
@@ -195,9 +180,7 @@ const Header = () => {
                               onChange={(e) => setDay(e.target.value)}
                             />
                             <select className="sublist-drop__select" id="month"
-
                               onChange={(e) => setMonth(e.target.value)}
-
                             >
                               <option value="">Month</option>
                               <option value="01">1January</option>
@@ -221,6 +204,8 @@ const Header = () => {
                               value={year}
                               onChange={(e) => setYear(e.target.value)}
                             />
+
+                            {day && <button className="sublist-drop__year" onClick={handleForm}>OK</button>}
                           </form>
                         </li>
                       </ul>
@@ -231,11 +216,11 @@ const Header = () => {
             </DropDown>
             {
               (sort || filter) &&
-              <span className="dropdown__icon _icon-res" onClick={onResetFilter}>  
+              <span className="dropdown__icon _icon-res" onClick={onResetFilter}>
               </span>
-              
+
             }
-            
+
           </div>
         </div>
       </div>

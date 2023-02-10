@@ -2,25 +2,29 @@ import { useContext } from 'react'
 import Ticket from '../components/ticket/Ticket';
 import Loader from "../components/loader/Loader";
 import { AppContext } from '../App';
-export const TicketList = ({ticketInfo}) => {
-   const { data, load} = useContext(AppContext);
+export const TicketList = ({ ticketInfo }) => {
+   const { data, load, value } = useContext(AppContext);
 
+   const renderTickets = () => {
+      const search = data.filter(item => item.title.toString().toLowerCase().includes(value));
+      return (
+         search?.map((item) =>
+            <Ticket key={item.id} {...item} ticketInfo={ticketInfo} />
+         )
+      )
+   }
    return (
 
-         <div className="content-body__rows">
-            {
-               load
-                  ?
-                  <Loader />
-                  
-                  :
-                  data?.map((item) =>
-                     <Ticket key={item.id} {...item}  ticketInfo={ticketInfo} />
-                  )
+      <div className="content-body__rows">
+         {
+            load
+               ?
+               <Loader />
+               :
+               renderTickets()
+         }
 
-            }
+      </div>
 
-         </div>
-    
    )
 }
