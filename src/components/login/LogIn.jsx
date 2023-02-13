@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { BtnForm } from '../ui/BtnForm'
 import { InputForm } from '../ui/InputForm'
@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from 'react'
+
 export const Login = ({title}) => {
+
+  
    const navigate = useNavigate();
    const[err, setErr] = useState(false)
    const handleSubmit = (e) => {
@@ -20,7 +23,6 @@ export const Login = ({title}) => {
          .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
             navigate('/tickets')
          })
          .catch((error) => {

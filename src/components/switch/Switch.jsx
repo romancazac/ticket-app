@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../App';
+import { AppContext } from '../../context/appContext';
 
 const Switch = () => {
     const {onSwitch} = useContext(AppContext)

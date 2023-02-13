@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import { AppContext } from "../App";
+import { AppContext } from '../context/appContext';
 import {signOut} from "firebase/auth"
 import { auth } from '../firebase'
 import DropDown from "../components/dropdown/DropDown";
@@ -9,11 +9,11 @@ import Header from "../components/header/Header";
 
 import Switch from "../components/switch/Switch";
 
-
+import logo from '../img/log/logo.svg'
 
 
 const Dashboard = () => {
-
+  const [open, setOpen] = useState(false)
   const{currentUser} = useContext(AppContext)
   const dropItems = [
     {
@@ -30,14 +30,14 @@ const Dashboard = () => {
     },
   ];
 
-
+const onBurger = () => {
+  setOpen(!open)
+}
 
   return (
     <div className="page-dashboard__row">
-      <aside className="page-dashboard__aside aside ">
-        {/* <!-- toggle click "aside__btn-open" className "menu-open" open/close menu to > 1200px -->
-					<!-- ex - <aside className="page-dashboard__aside aside menu-open"> --> */}
-        <button className="aside__btn-open icon-menu">
+      <aside className={`page-dashboard__aside aside ${open && "menu-open"}`}>
+        <button className="aside__btn-open icon-menu" onClick={onBurger}>
           <span></span>
         </button>
         <a href="#" className="aside__logo">
@@ -122,7 +122,7 @@ const Dashboard = () => {
           <Switch />
         </div>
         <a href="#" className="aside__footer">
-          <img src="img/log/logo.svg" alt="" />
+          <img src={logo} alt="" />
         </a>
       </aside>
       <div className="page-dashboard__content dashboard-content">

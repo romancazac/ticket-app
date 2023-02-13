@@ -1,7 +1,7 @@
 
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState} from "react";
 
-import { AppContext } from "../../App";
+import { AppContext } from '../../context/appContext';
 import DropDown from "../dropdown/DropDown";
 import FilterItem from "../filter/FilterItem";
 import Search from "../search/Search";

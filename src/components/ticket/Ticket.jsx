@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AppContext } from "../../App";
+import { AppContext } from '../../context/appContext';
 import { useIcon } from "../../hooks/icon.hook";
 
 const Ticket = ({ title, id, author, date, priority, edit, ticketInfo, status}) => {

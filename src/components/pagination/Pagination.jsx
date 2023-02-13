@@ -2,14 +2,11 @@ import {useEffect,useState} from 'react'
 
 import { useContext } from 'react';
 import ReactPaginate from 'react-paginate';
-import { AppContext } from '../../App';
+import { AppContext } from '../../context/appContext';
 
 export const Pagination = () => {
 
-   const { perPage,setData,filterData} = useContext(AppContext);
-
-
-  
+   const { perPage,setData,filterData} = useContext(AppContext);  
    const [currentPage, setCurrentPage] = useState(1);
 
    const indexOfLastPost = currentPage * perPage;
@@ -34,7 +31,7 @@ export const Pagination = () => {
        )
        
        },[currentPage,perPage])
- console.log(filterData)
+
 
    return (
       <nav className="pagination__nav">

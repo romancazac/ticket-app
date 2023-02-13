@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext  } from "react";
 import { collection, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
 import useTicketService from '../services/TicketServices';
 import { db } from '../firebase';
-import { useContext } from "react";
-import { AppContext } from "../App";
+
+import { AppContext } from '../context/appContext';
 
 import { Select } from "../components/select/Select";
 
@@ -28,7 +28,7 @@ export const CreateTicket = () => {
 
 
 
-
+console.log(users)
   const handleForm = async (e) => {
     e.preventDefault();
 
@@ -76,7 +76,7 @@ export const CreateTicket = () => {
     return () => {
       fetchUsers()
     }
-  }, [])
+  }, [load])
 
 
 
@@ -104,7 +104,7 @@ export const CreateTicket = () => {
               <span className="ticket-create__lable">To:</span>
               {load &&
                 <Select
-                  dropItems={users.map((item) => item.displayName)}
+                  dropItems={users?.map((item) => item.displayName)}
                   activeClient={to}
                   setActiveClient={setTo}
                   checkbox={true}

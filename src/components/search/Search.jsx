@@ -1,6 +1,6 @@
 
 import React, { useCallback, useContext, useState } from 'react';
-import { AppContext } from '../../App';
+import { AppContext } from '../../context/appContext';
 
 const Search = () => {
     const {value, onSearch} = useContext(AppContext);
