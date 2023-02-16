@@ -63,20 +63,23 @@ console.log(users)
 
 
   useEffect(() => {
-    const fetchUsers = () => {
-      const dataBaseRef = collection(db, 'users');
-      getDocs(dataBaseRef)
-        .then(res => {
-          const datas = res.docs.map(doc => (doc.data()));
-          setUsers(datas.filter((item) => item.uid !== currentUser.uid))
-          setLoad(true)
-        })
+    const fetchUsers = async () => {
 
+        try {
+          const dataBaseRef = collection(db, 'users');
+          getDocs(dataBaseRef)
+            .then(res => {
+              const datas = res.docs.map(doc => (doc.data()));
+              setUsers(datas.filter((item) => item.uid !== currentUser.uid))
+              setLoad(true)
+            })
+        } catch (error) {
+          console(error)
+        }
     }
-    return () => {
-      fetchUsers()
-    }
-  }, [load])
+ 
+    fetchUsers()
+  }, [])
 
 
 
