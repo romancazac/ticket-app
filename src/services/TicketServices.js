@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useHttp } from '../hooks/http.hook';
 import { db } from '../firebase';
 
-import { collection, getDocs, addDoc, setDoc, doc, query, where, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, addDoc, setDoc, doc, query, where, orderBy, limit,deleteDoc } from "firebase/firestore";
 
 
 const useTicketService = () => {
@@ -68,9 +68,24 @@ const useTicketService = () => {
 
 
     }
+      
+        const deleteTicket = async (id) => {
+
+            const querySnapshot = await getDocs(query(collection(db, "tickets"), where("id", "==", `${id}`)));
+            querySnapshot.forEach(async (doc) => {
+              try {
+                await deleteDoc(doc.ref);
+             
+              } catch (error) {
+                console.error("A apărut o eroare la ștergerea documentului: ", error);
+              }
+            });
+    
+    
+        }
 
 
-    return { loading, error, clearError, getAllTickets, getTicket, createTicket }
+    return { loading, error, clearError, getAllTickets, getTicket, createTicket,deleteTicket }
 }
 
 export default useTicketService;

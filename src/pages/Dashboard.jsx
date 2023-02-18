@@ -14,17 +14,18 @@ import logo from '../img/log/logo.svg'
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false)
-  const{currentUser} = useContext(AppContext)
+  const{currentUser,onConfig} = useContext(AppContext)
   const dropItems = [
     {
       title: "Configuration",
-      url: "/",
+      url: "",
       icon: true,
+      methodObj:onConfig
     },
     {
       title: "Log out",
-      url: "/",
-      logOut:function(){
+      url: "#",
+      methodObj:function(){
         signOut(auth)
       }
     },
@@ -55,7 +56,7 @@ const onBurger = () => {
           >
             <ul className="dropdown__items">
               {dropItems?.map((item) => (
-                <li key={item.title} onClick={item.logOut && item.logOut}>
+                <li key={item.title} onClick={item.methodObj && item.methodObj}>
                   <a
                     className={
                       item.icon
@@ -102,9 +103,9 @@ const onBurger = () => {
             }
             className={"aside__dropdown"}
           >
-            <ul className="dropdown__items">
+               <ul className="dropdown__items">
               {dropItems?.map((item) => (
-                <li key={item.title}>
+                <li key={item.title} onClick={(e) => item.methodObj && item.methodObj}>
                   <a
                     className={
                       item.icon

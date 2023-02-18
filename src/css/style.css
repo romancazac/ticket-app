@@ -616,6 +616,9 @@ h6 {
   transition: all 0.2s;
   /* .dropdown__item_conf */
 }
+.dropdown__item span{
+display: block;
+}
 .dropdown__item:hover {
   opacity: 0.8;
 }
@@ -1080,12 +1083,7 @@ body[data-theme=light] .log-form__line_search {
   color: #4E5559;
   margin-bottom: 20px;
   cursor: pointer;
-  /* .content-row__column */
-  /* .content-row__title */
-  /* .content-row__icon */
-  /* .content-row__lable */
-  /* .content-row__username */
-  /* .content-row__date */
+
 }
 @media (max-width: 500px) {
   .content-row {
@@ -1179,7 +1177,18 @@ body[data-theme=light] .log-form__line_search {
   font-size: 16px;
   line-height: 19px;
 }
-
+.content-row__config{
+padding: 0 5px;
+text-align: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+.content-row__btn:hover{
+  
+ color: var(--colors-blue);
+}
 .footer-dash {
   display: flex;
   align-items: center;

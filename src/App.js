@@ -16,6 +16,7 @@ import { Registration } from './components/registration/Registration';
 import { Context } from './context/appContext';
 import { ProtectedRoute } from './components/protectedRoute/ProtectedRoute';
 import './css/style.css'
+
 function App() {
 
   const location = useLocation();
@@ -37,7 +38,7 @@ function App() {
               <Route path="tickets/:idn" element={<ProtectedRoute><TicketInfo /></ProtectedRoute>} />
               <Route path="reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
               <Route path="create" element={<ProtectedRoute><CreateTicket /></ProtectedRoute>} />
-
+             
             </Route>
 
           </Routes>

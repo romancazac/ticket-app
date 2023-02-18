@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import { useContext } from 'react';
+import { AppContext } from '../../context/appContext';
 import { useSelect } from '../../hooks/select.hook';
 import DropDown from '../dropdown/DropDown';
 
@@ -7,11 +9,14 @@ export const Select = ({ dropItems, setActiveClient, activeClient, checkbox, cla
 
    // const {onUser, users, setUsers,activeClient,setActiveClient} = useSelect();
    const { onUser, users, setUsers } = useSelect();
+   const {edit} = useContext(AppContext);
 
+  
    useEffect(() => {
       setUsers(dropItems);
-
+     
    }, [])
+
    return (
       <DropDown
          title={`${activeClient}` || `${placeholder}`}
@@ -34,6 +39,13 @@ export const Select = ({ dropItems, setActiveClient, activeClient, checkbox, cla
                                  <input id={user}
                                     type="checkbox"
                                     name="remember"
+                                    defaultChecked={
+                                  
+                                          edit.to == user ? 'checked' : '' ||
+                                          edit.title == user ? 'checked' : '' ||
+                                          edit.author == user ? 'checked' : '' 
+                                    }
+                                  
                                     onClick={
                                        () => onUser(i, activeClient, setActiveClient, checkbox)}
                                     className="checkbox__input" />

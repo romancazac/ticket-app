@@ -1,10 +1,11 @@
 
-import React, { useState, useMemo, useCallback, useEffect, createContext } from "react";
+import React, { useState, useMemo, useEffect, createContext } from "react";
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../firebase';
+import { auth } from '../firebase';
 import useFilterData from "../hooks/filter.hook";
 
 import useTicketService from "../services/TicketServices";
+import { useNavigate } from "react-router";
 
 export const AppContext = createContext();
 
@@ -12,7 +13,7 @@ export const AppContext = createContext();
 
 export const Context = ({ children }) => {
    const { data, setData, filterData, onFiltrFnc, setFilterData } = useFilterData();
-   const { getAllTickets } = useTicketService()
+   const { getAllTickets,deleteTicket } = useTicketService()
    const [currentUser, setCurrentUser] = useState({});
 
    const [theme, setTheme] = useState(false);
@@ -36,6 +37,23 @@ export const Context = ({ children }) => {
    const [value, setValue] = useState('');
 
    const [load, setLoad] = useState(true);
+   // config
+   const [config, setConfig] = useState(false);
+   // edit
+   const [edit, setEdit] = useState({});
+
+   const navigate = useNavigate();
+   
+   const onConfig = (e) => {  
+      e.preventDefault()
+      setConfig(!config)
+   }
+
+   const onEdit = (obj) => {
+      setEdit(obj);
+      navigate("/create")
+      console.log(obj)
+   }
 
    const onSwitch = () => {
       setTheme(!theme)
@@ -103,13 +121,17 @@ export const Context = ({ children }) => {
          })
 
    }
+   const onDelete = async (id) => {
+      await deleteTicket(id)
+      fetchTickets()
+     
+   }
 
    useEffect(() => {
 
       fetchTickets()
 
    }, [sort]);
-
 
 
 
@@ -132,13 +154,34 @@ export const Context = ({ children }) => {
          perPage,
          setData,
          filterData,
-         setPerPage
+         setPerPage,
+         config, 
+         onConfig,
+         onEdit,
+         edit, 
+         setEdit,
+         fetchTickets,
+         setConfig,
+         onDelete
       }),
-      [data, onSwitch, currentUser, setCurrentUser, onResetFilter, onSortSub, onSearch, onFilter, onSort, onCreate, sortSub,
+      [data, onSwitch, currentUser, setCurrentUser, onResetFilter, onSortSub, onSearch, onFilter,     onSort,
+          onCreate, 
+          sortSub,
          value,
          load, perPage,
          setData,
-         filterData, setPerPage]
+         filterData, 
+         setPerPage,
+         config, 
+         onConfig,
+         onEdit,
+         edit, 
+         setEdit,
+         fetchTickets,
+         setConfig,
+         onDelete
+      
+      ]
    );
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useContext  } from "react";
-import { collection, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
+import { collection, getDocs,updateDoc,doc, where, query} from "firebase/firestore";
 import useTicketService from '../services/TicketServices';
 import { db } from '../firebase';
 
@@ -9,9 +9,11 @@ import { Select } from "../components/select/Select";
 
 import { uid } from "uid";
 export const CreateTicket = () => {
+
+
   const {createTicket} = useTicketService();
 
-  const { currentUser,fetchTickets } = useContext(AppContext);
+  const { currentUser,fetchTickets,edit,setConfig } = useContext(AppContext);
 
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(false);
@@ -28,10 +30,11 @@ export const CreateTicket = () => {
 
 
 
-console.log(users)
+console.log(subject)
+
+
   const handleForm = async (e) => {
     e.preventDefault();
-
     const idTicket = uid();
 
     const dataForm = {
@@ -45,9 +48,35 @@ console.log(users)
       status: status,
       date: parseDate,
       edit: parseDate,
+    
     }
-    // async function 
-    createTicket(dataForm, idTicket);
+    
+    if(Object.keys(edit).length !== 0){
+
+      const ticketsRef = collection(db, "tickets");
+      const q = query(ticketsRef, where("id", "==", edit.id));
+      const querySnapshot = await getDocs(q);
+      const ticketRef = doc(db, "tickets", querySnapshot.docs[0].id);
+
+      // update
+      await updateDoc(ticketRef,{
+            author: client.toString(),
+            to: to.toString(),
+            title: subject.toString(),
+            category: category.toString(),
+            priority: priority.toString(),
+            body: body.toString(),
+            status: status.toString(),
+            edit: parseDate.toString(),
+      });
+
+    } else {
+      
+      // async function 
+      createTicket(dataForm, idTicket);
+    }
+    
+    
     
     // res form
     setClient([]);
@@ -57,7 +86,8 @@ console.log(users)
     setPriority([]);
     setBody([]);
     setStatus([]);
-    fetchTickets()
+    fetchTickets();
+    setConfig(false)
   };
 
 
@@ -80,6 +110,28 @@ console.log(users)
  
     fetchUsers()
   }, [])
+
+   
+
+  
+  useEffect(() => {
+    if(Object.keys(edit).length !== 0){
+      const editTicket = () => {
+        setClient([edit.author]);
+        setTo([edit.to]);
+        setSubject(edit.title);
+        setCategory([edit.category]);
+        setPriority([edit.priority]);
+        setBody([edit.body]);
+        setStatus([edit.status]);
+       
+      }
+
+      editTicket()
+    }
+   
+
+  },[edit])
 
 
 
@@ -120,7 +172,7 @@ console.log(users)
             <div className="ticket-create__line">
               <span className="ticket-create__lable">*Subject:</span>
               <Select
-                dropItems={["subject1", "subject2", "subject3"]}
+                dropItems={["subject1", "subject2", "subject3", "Pentru Cristina Popsescu"]}
                 activeClient={subject}
                 setActiveClient={setSubject}
                 checkbox={true}
