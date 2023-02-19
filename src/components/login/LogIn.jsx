@@ -34,8 +34,8 @@ export const Login = ({title}) => {
          <h3 className="log-form__title">
             {title}
          </h3>
-         <InputForm name="Login" placeholder="Login" className={'log-form__line_user'}/>
-         <InputForm type="password" name="Password" placeholder="Password" className={'log-form__line_pass'}/>
+         <InputForm name="Login" placeholder="Login" className={'log-form__line_user'} value="admin999@gmail.com"/>
+         <InputForm type="password" name="Password" placeholder="Password" className={'log-form__line_pass'} value="123456789"/>
           {err && "Incorect password or login"}       
          <BtnForm name="Sign In"/>
          <div className="log-form__footer">
